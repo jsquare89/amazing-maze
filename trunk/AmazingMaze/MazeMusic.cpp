@@ -1,73 +1,106 @@
 #include "Precompiled.hpp"
 #include "MazeMusic.hpp"
 
+#define BUFSIZE 256
+
+using namespace std;
+
 namespace AmazingMaze
 {
-    CMazeMusic::CMazeMusic()
-    {
-	    soundFileName	= "";
-	    soundVolume		= 0;
-	    streamType		= true;
-    }
 
-    CMazeMusic::CMazeMusic(const char* fileName)
-    {
-	    soundFileName	= fileName;
-	    soundVolume		= .5;
-	    streamType		= true;
+	CMazeMusic::CMazeMusic ()
+	{
+		m_pSoundFileName	= new char[BUFSIZE];
+		m_pSoundFileName	= "";
+		m_soundVolume		= 1;
+		m_streamType		= true;
+		m_soundLoaded		= false;
+	}
 
-	    loadDevice();
-	    loadSound();
-    }
+	CMazeMusic::CMazeMusic (const char* fileName)
+	{
+		m_pSoundFileName	= new char[BUFSIZE];
+		m_pSoundFileName	= fileName;
+		m_soundVolume		= 1;
+		m_streamType		= true;
+		m_soundLoaded		= false;
 
-    CMazeMusic::CMazeMusic(const char* fileName, float volume)
-    {
-	    soundFileName	= fileName;
-	    soundVolume		= volume;
-	    streamType		= true;
+		loadDevice();
+		loadSound();
+	}
 
-	    loadDevice();
-	    loadSound();
-    }
+	CMazeMusic::CMazeMusic (const char* fileName, float volume)
+	{
+		m_pSoundFileName	= new char[BUFSIZE];
+		m_pSoundFileName	= fileName;
+		m_soundVolume		= volume;
+		m_streamType		= true;
+		m_soundLoaded		= false;
 
-    CMazeMusic::CMazeMusic(const char* fileName, float volume, bool stream)
-    {
-	    soundFileName	= fileName;
-	    soundVolume		= volume;
-	    streamType		= stream;
+		loadDevice();
+		loadSound();
+	}
 
-	    loadDevice();
-	    loadSound();
-    }
+	CMazeMusic::CMazeMusic (const char* fileName, float volume, bool stream)
+	{
+		m_pSoundFileName	= new char[BUFSIZE];
+		m_pSoundFileName	= fileName;
+		m_soundVolume		= volume;
+		m_streamType		= stream;
+		m_soundLoaded		= false;
 
-    SoundPtr CMazeMusic::getSoundObject ()
-    {
-	    return soundObject;
-    }
+		loadDevice();
+		loadSound();
+	}
 
-    void CMazeMusic::setVolume (float volume)
-    {
-		     if (volume > 1) volume = 1;
-	    else if (volume < 0) volume = 0;
+	CMazeMusic::~CMazeMusic ()
+	{
+		delete[] m_pSoundFileName;
+	}
 
-	    soundVolume = volume;
-	    soundObject ->setVolume(soundVolume);
-    }
+	SoundPtr CMazeMusic::getSoundObject ()
+	{
+		return m_pSoundObject;
+	}
 
-    static audiere::AudioDevicePtr  audiereDevice;  // the music player device
-    static bool	deviceLoaded		= false;       // check for device load
-    void CMazeMusic::loadDevice()
-    {
-	    if (!deviceLoaded)
-	    {
-		    audiereDevice = audiere::AudioDevicePtr (audiere::OpenDevice());
-		    deviceLoaded = true;
-	    }
-    }
+	bool CMazeMusic::isSoundLoaded ()
+	{
+		return m_soundLoaded;
+	}
 
-    void CMazeMusic::loadSound()
-    {
-	    if (audiereDevice)
-		    soundObject = SoundPtr (audiere::OpenSound (audiereDevice, soundFileName, streamType));
-    }
-} // namespace 3DMaze
+	float CMazeMusic::setVolume (float volume)
+	{
+			 if (volume > 1) volume = 1;
+		else if (volume < 0) volume = 0;
+
+		m_soundVolume = volume;
+		m_pSoundObject->setVolume(m_soundVolume);
+
+		return volume;
+	}
+
+	float CMazeMusic::getVolume ()
+	{
+		return m_pSoundObject->getVolume();
+	}
+
+	static audiere::AudioDevicePtr   audiereDevice;  // the music player device
+	static bool 	 deviceLoaded   = false;         // check for device load
+	void CMazeMusic::loadDevice()
+	{
+		if (!deviceLoaded || audiereDevice == NULL)
+		{
+			audiereDevice = audiere::AudioDevicePtr (audiere::OpenDevice());
+			deviceLoaded = true;
+		}
+	}
+
+	void CMazeMusic::loadSound ()
+	{
+		if (audiereDevice)
+			m_pSoundObject = SoundPtr (audiere::OpenSound (audiereDevice, m_pSoundFileName, m_streamType));
+
+		if (m_pSoundObject != NULL)
+			m_soundLoaded = true;
+	}
+} // namespace AmazingMaze
