@@ -155,10 +155,21 @@ public:
   result_type operator()(first_argument_type row,
                          second_argument_type r) const
   {
-    std::for_each(row->north_walls.begin(), row->north_walls.end(), 
-                  std::bind2nd(draw_north_wall_2d(), &pair_int(0,*r)));
-    std::for_each(row->east_walls.begin(), row->east_walls.end(), 
-                  std::bind2nd(draw_east_wall_2d(), &pair_int(0, *r)));
+	  draw_north_wall_2d d1;
+	  pair_int p1(0,*r);
+	  for (maze_row::walls::const_iterator cit = row->north_walls.begin();
+	       cit != row->north_walls.end(); ++cit)
+	  {
+		  d1(*cit, &p1);
+	  }
+
+	  pair_int p2(0,*r);
+	  draw_east_wall_2d d2;
+	  for (maze_row::walls::const_iterator cit = row->east_walls.begin();
+	       cit != row->east_walls.end(); ++cit)
+	  {
+		  d2(*cit, &p2);
+	  }
     (*r)++;
 
     return (0);
@@ -217,10 +228,21 @@ public:
   result_type operator()(first_argument_type row,
                          second_argument_type r) const
   {
-    std::for_each(row->north_walls.begin(), row->north_walls.end(), 
-                  std::bind2nd(draw_north_wall(), &pair_int(0,*r)));
-    std::for_each(row->east_walls.begin(), row->east_walls.end(), 
-                  std::bind2nd(draw_east_wall(), &pair_int(0, *r)));
+	  draw_north_wall d1;
+	  pair_int p1(0,*r);
+	  for (maze_row::walls::const_iterator cit = row->north_walls.begin();
+	       cit != row->north_walls.end(); ++cit)
+	  {
+		  d1(*cit, &p1);
+	  }
+
+	  draw_east_wall d2;
+	  pair_int p2(0,*r);
+	  for (maze_row::walls::const_iterator cit = row->east_walls.begin();
+	       cit != row->east_walls.end(); ++cit)
+	  {
+		  d2(*cit, &p2);
+	  }
     (*r)++;
 
     return (0);
