@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MazeMusicLibrary.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Precompiled.cpp"
 				>
 				<FileConfiguration
@@ -244,6 +248,10 @@
 			</File>
 			<File
 				RelativePath=".\MazeMusic.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MazeMusicLibrary.hpp"
 				>
 			</File>
 			<File
