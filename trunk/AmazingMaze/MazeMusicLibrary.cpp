@@ -85,9 +85,6 @@ namespace AmazingMaze
 
 	void CMazeMusicLibrary::playLibrary ()
 	{
-		if ( abs((100*m_volume) - (100*(m_musicIter->getVolume()))) != 0)
-			m_musicIter->setVolume(m_volume);
-
 		if (!m_musicIter->getSoundObject()->isPlaying() && m_play)
 		{
 			m_musicIter++;
