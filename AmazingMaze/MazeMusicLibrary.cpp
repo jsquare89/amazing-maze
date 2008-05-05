@@ -58,7 +58,7 @@ namespace AmazingMaze
 
 		OemToCharW (m_pFolder,match);
 
-		fileHandler = FindFirstFile (match, &fileData);
+		fileHandler = FindFirstFile ((LPCSTR) match, (LPWIN32_FIND_DATAA) &fileData);
 
 		if (fileHandler != INVALID_HANDLE_VALUE)
 		{
@@ -75,7 +75,7 @@ namespace AmazingMaze
 			if (song->isSoundLoaded())
 				m_musicLibrary.push_front(*song);
 
-			while (FindNextFile(fileHandler, &fileData) != 0)
+			while (FindNextFile(fileHandler,(LPWIN32_FIND_DATAA) &fileData) != 0)
 			{
 				CharToOemW (fileData.cFileName,fname);
 				absName = (string) fname;

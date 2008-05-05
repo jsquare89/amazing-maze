@@ -2,6 +2,8 @@
 
 #include <audiere/audiere.h>
 
+#define BUFSIZE 256
+
 namespace AmazingMaze
 {
     // type define for less typing
