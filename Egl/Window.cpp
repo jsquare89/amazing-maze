@@ -5,13 +5,6 @@
 #include "Egl/detail/WindowImpl.hpp"
 #include "Egl/Font.hpp"
 
-// Save the current definition of CreateWindow.
-// This is because CreateWindow is a macro defined in windows.h
-#ifdef CreateWindow
-    #define OldCreateWindowDef CreateWindow
-    #undef CreateWindow
-#endif
-
 namespace Egl
 {
     CWindow::CWindow() : m_pImpl(new detail::CWindowImpl())
@@ -187,8 +180,3 @@ namespace Egl
     }
 } // namespace Egl
 
-// Restore the current definition of CreateWindow
-#ifdef OldCreateWindowDef
-    #define CreateWindow OldCreateWindowDef 
-    #undef OldCreateWindowDef
-#endif

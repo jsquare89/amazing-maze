@@ -13,9 +13,6 @@
 #include "Egl/detail/DevIL.hpp"
 #include <string>
 
-// Remove CreateWindow, a macro defined in windows.h
-#undef CreateWindow
-
 namespace Egl
 {
     namespace detail
