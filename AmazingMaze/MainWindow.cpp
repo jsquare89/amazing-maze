@@ -9,9 +9,11 @@
 #include "Egl/SurfaceProperties.hpp"	
 #include "Egl/Texture.hpp"
 #include "Egl/Image.hpp"
+#include "Egl/Timer.hpp"
 #include "Egl/ImageButton.hpp"
 #include "3DMenu.hpp"
 #include "MazeMusic.hpp"
+#include "MazeMusicLibrary.hpp"
 #include "Egl/Menu.hpp"
 #include "HelpWindow.hpp"
 
@@ -25,8 +27,10 @@ namespace AmazingMaze
                                      m_pCreditsMenu(new C3DMenu()),
                                      m_bInMainMenu(true),
                                      m_pMazeMusic(),
+									 m_pBackgroundMusicLibrary(),
                                      m_pContextMenu(),
-                                     m_pHelpWindow()
+                                     m_pHelpWindow(),
+									 m_pBackgroundMusicTimer()
     {
         // We are interested in listening to
         // some events                
@@ -368,9 +372,14 @@ namespace AmazingMaze
         // 
         // Start playing audio
         //this->OpenMidi("voltes_v_opening_midi.mid");
-        m_pMazeMusic.reset(new CMazeMusic("sounds\\Tool - Reflection.mp3"));
-        m_pMazeMusic->getSoundObject()->play();
-        m_pMazeMusic->getSoundObject()->setRepeat(true);
+//        m_pMazeMusic.reset(new CMazeMusic("sounds\\Tool - Reflection.mp3"));
+//        m_pMazeMusic->getSoundObject()->play();
+//        m_pMazeMusic->getSoundObject()->setRepeat(true);
+		m_pBackgroundMusicLibrary.reset(new CMazeMusicLibrary(L"C:\\Users\\yorgo\\Music\\maze test sounds\\*.mp3"));
+//		m_pBackgroundMusicLibrary.reset(new CMazeMusicLibrary(L"C:\\Users\\yorgo\\Documents\\Visual Studio 2008\\Projects\\630 Group Project\\AmazingMaze\\sounds\\*.mp3"));
+		m_pBackgroundMusicTimer = this->GetContext()->CreateTimer();
+		m_pBackgroundMusicTimer->OnTick += boost::bind(&CMazeMusicLibrary::playLibrary,m_pBackgroundMusicLibrary);
+		m_pBackgroundMusicTimer->StartInterval(1000);
 
         // Now we can handle draw events
         this->OnDraw += boost::bind(&CMainWindow::HandleOnDraw, this);        

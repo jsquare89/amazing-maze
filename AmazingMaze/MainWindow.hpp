@@ -11,6 +11,7 @@ namespace AmazingMaze
     class C3DMenu;
 
     class CMazeMusic;
+    class CMazeMusicLibrary;
 
     /** Main window for the project. */
     class CMainWindow : public Egl::CWindow
@@ -106,12 +107,15 @@ namespace AmazingMaze
         /** Whether we are showing the main menu. */
         bool m_bInMainMenu;
 
-        boost::shared_ptr<CMazeMusic> m_pMazeMusic;
+        boost::shared_ptr<CMazeMusic>			m_pMazeMusic;
+        boost::shared_ptr<CMazeMusicLibrary>	m_pBackgroundMusicLibrary;
 
         /** Context menu. */
         Egl::MenuPtr_t m_pContextMenu;
 
         /** Help window */
         Egl::WindowPtr_t m_pHelpWindow;
+
+		Egl::TimerPtr_t  m_pBackgroundMusicTimer;
     };
 } // namespace Project2
