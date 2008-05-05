@@ -2,6 +2,7 @@
 
 #include "MazeMusic.hpp"
 #include <windows.h>
+#include <string>
 #include <list>
 
 namespace AmazingMaze
@@ -11,9 +12,9 @@ namespace AmazingMaze
 		public:
 			CMazeMusicLibrary    ();
 			~CMazeMusicLibrary   ();
-			CMazeMusicLibrary    (const char*  folderName);
-			CMazeMusicLibrary    (const char*  folderName,
-										bool   play      );
+			CMazeMusicLibrary    (const wchar_t*  folderName);
+			CMazeMusicLibrary    (const wchar_t*  folderName,
+										bool	  play      );
 
 			std::list<CMazeMusic>::iterator getMusicIter();
 
@@ -28,7 +29,7 @@ namespace AmazingMaze
 		private:
 			std::list<CMazeMusic>			m_musicLibrary;
 			std::list<CMazeMusic>::iterator	m_musicIter;
-			char*							m_pFolder;
+			std::wstring					m_pFolder;
 			float							m_volume;
 			bool							m_play;
 	};

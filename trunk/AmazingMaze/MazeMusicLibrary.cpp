@@ -13,35 +13,29 @@ namespace AmazingMaze
 	{
 		m_volume  = 1;
 		m_play    = false;
-		m_pFolder = new char[BUFSIZE];
 	}
 
-	CMazeMusicLibrary::CMazeMusicLibrary (const char* folderName)
+	CMazeMusicLibrary::CMazeMusicLibrary (const wchar_t* folderName)
 	{
 		m_volume  = 1;
 		m_play    = true;
-		m_pFolder = new char[BUFSIZE];
-
-		strncpy_s (m_pFolder,BUFSIZE,folderName,BUFSIZE);
+		m_pFolder.assign(folderName);
 
 		populateLibrary ();
 	}
 
-	CMazeMusicLibrary::CMazeMusicLibrary (const char*  folderName,
-											   bool  play      )
+	CMazeMusicLibrary::CMazeMusicLibrary (const wchar_t*  folderName,
+											    bool	  play      )
 	{
 		m_volume  = 1;
 		m_play    = play;
-		m_pFolder = new char[BUFSIZE];
-
-		strncpy_s (m_pFolder,BUFSIZE,folderName,BUFSIZE);
+		m_pFolder.assign(folderName);
 
 		populateLibrary ();
 	}
 
 	CMazeMusicLibrary::~CMazeMusicLibrary ()
 	{
-		delete[] m_pFolder;
 	}
 
 	std::list<CMazeMusic>::iterator CMazeMusicLibrary::getMusicIter ()
@@ -54,36 +48,33 @@ namespace AmazingMaze
 		WIN32_FIND_DATAW	fileData;
 		HANDLE				fileHandler;
 		TCHAR				absPath[BUFSIZE] = TEXT("");
-		WCHAR				match  [BUFSIZE] = L"";
+		char				match  [BUFSIZE] = "";
 
-		OemToCharW (m_pFolder,match);
-
-		fileHandler = FindFirstFile ((LPCSTR) match, (LPWIN32_FIND_DATAA) &fileData);
+		fileHandler = FindFirstFileW (m_pFolder.c_str(), &fileData);
 
 		if (fileHandler != INVALID_HANDLE_VALUE)
 		{
-			string	*path			= new string(m_pFolder);
-			char	fname[BUFSIZE]	= {0};
+			wstring	path			= m_pFolder;
+			
+			wstring	absName			= fileData.cFileName;
 
-			CharToOemW (fileData.cFileName,fname);
-			string	absName((string)fname);
+			path.replace(path.find(L"*",0), absName.length(), absName);
 
-			path->replace(path->find("*",0), absName.length(), absName);
-
-			CMazeMusic *song	= new CMazeMusic(path->c_str());
+			CharToOemW (path.c_str(),match);
+			CMazeMusic *song	= new CMazeMusic(match);
 
 			if (song->isSoundLoaded())
 				m_musicLibrary.push_front(*song);
 
-			while (FindNextFile(fileHandler,(LPWIN32_FIND_DATAA) &fileData) != 0)
+			while (FindNextFileW (fileHandler, &fileData) != 0)
 			{
-				CharToOemW (fileData.cFileName,fname);
-				absName = (string) fname;
-				path	= new string(m_pFolder);
+				absName = fileData.cFileName;
+				path	= m_pFolder;
 
-				path->replace (path->find("*",0), absName.length(), absName);
+				path.replace (path.find(L"*",0), absName.length(), absName);
 
-				song	= new CMazeMusic(path->c_str());
+				CharToOemW (path.c_str(),match);
+				song	= new CMazeMusic(match);
 
 				if (song->isSoundLoaded())
 					m_musicLibrary.push_back(*song);
