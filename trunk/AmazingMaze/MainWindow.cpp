@@ -145,12 +145,12 @@ namespace AmazingMaze
 
                     // Increase volume
                     case '+':
-                        m_pMazeMusic->setVolume(m_pMazeMusic->getSoundObject()->getVolume() + .1);
+						m_pBackgroundMusicLibrary->increaseVolume();
                     break;
 
                     // Decrease volume
                     case '-':
-                        m_pMazeMusic->setVolume(m_pMazeMusic->getSoundObject()->getVolume() - .1);
+						m_pBackgroundMusicLibrary->decreaseVolume();
                     break;
 
                     // help key
