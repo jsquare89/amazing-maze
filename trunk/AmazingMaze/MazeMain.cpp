@@ -5,9 +5,6 @@
 #include "Egl/SurfaceProperties.hpp"	
 #include <ctime>
 
-// Undefine CreateWindow as defined by <windows.h>
-#undef CreateWindow
-
 namespace AmazingMaze
 {
     // static 
@@ -31,7 +28,7 @@ namespace AmazingMaze
     {
         // Create main window
         m_pMainWindow = m_pContext->
-            CreateWindow<CMainWindow>(
+            CreateEglWindow<CMainWindow>(
                 Egl::SurfaceProperties::SURFACE_RGBA | 
                 Egl::SurfaceProperties::SURFACE_DOUBLE | 
                 Egl::SurfaceProperties::SURFACE_DEPTH,

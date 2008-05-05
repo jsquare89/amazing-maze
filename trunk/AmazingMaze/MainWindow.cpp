@@ -15,10 +15,6 @@
 #include "Egl/Menu.hpp"
 #include "HelpWindow.hpp"
 
-
-// Remove CreateWindow macro
-#undef CreateWindow
-
 namespace AmazingMaze
 {
     CMainWindow::CMainWindow(void) : CWindow(),
@@ -354,7 +350,7 @@ namespace AmazingMaze
         m_pCreditsMenu->SetWindow(this->shared_from_this());
 
         // Create help window and hide it
-        m_pHelpWindow = this->CreateWindow<CHelpWindow>(
+        m_pHelpWindow = this->CreateEglWindow<CHelpWindow>(
             Egl::SurfaceProperties::SURFACE_RGBA | 
             Egl::SurfaceProperties::SURFACE_SINGLE,
             0, 0, 

@@ -10,13 +10,6 @@
 #include <boost/cstdint.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
-// Save the current definition of CreateWindow.
-// This is because CreateWindow is a macro defined in windows.h
-#ifdef CreateWindow
-    #define OldCreateWindowDef CreateWindow
-    #undef CreateWindow
-#endif
-
 namespace Egl
 {
     namespace detail
@@ -135,7 +128,7 @@ namespace Egl
          *                           of the values in Egl::SurfaceProperties.
          */
         template <typename TWindow>
-        const WindowPtr_t CreateWindow(const boost::int64_t nSurfaceProperties)
+        const WindowPtr_t CreateEglWindow(const boost::int64_t nSurfaceProperties)
         {
             // Create window
             WindowPtr_t pWindow(new TWindow());
@@ -157,7 +150,7 @@ namespace Egl
          * @param strTitle Window title.
          */
         template <typename TWindow>
-        const WindowPtr_t CreateWindow(const boost::int64_t nSurfaceProperties, 
+        const WindowPtr_t CreateEglWindow(const boost::int64_t nSurfaceProperties, 
                                        const std::string & strTitle)
         {
             // Create window
@@ -181,7 +174,7 @@ namespace Egl
          * @param nY The Y position of the window.
          */
         template <typename TWindow>
-        const WindowPtr_t CreateWindow(const boost::int64_t nSurfaceProperties, 
+        const WindowPtr_t CreateEglWindow(const boost::int64_t nSurfaceProperties, 
                                        int nX, int nY)
         {
             // Create window
@@ -205,7 +198,7 @@ namespace Egl
          * @param nHeight The height of the window.
          */
         template <typename TWindow>
-        const WindowPtr_t CreateWindow(const boost::int64_t nSurfaceProperties, 
+        const WindowPtr_t CreateEglWindow(const boost::int64_t nSurfaceProperties, 
                                        int nX, int nY, int nWidth, int nHeight)
         {
             // Create window
@@ -229,7 +222,7 @@ namespace Egl
          * @param nY The Y position of the window.
          */
         template <typename TWindow>
-        const WindowPtr_t CreateWindow(const boost::int64_t nSurfaceProperties,
+        const WindowPtr_t CreateEglWindow(const boost::int64_t nSurfaceProperties,
                                        const std::string & strTitle, 
                                        int nX, int nY)
         {
@@ -255,7 +248,7 @@ namespace Egl
          * @param nHeight The height of the window.
          */
         template <typename TWindow>
-        const WindowPtr_t CreateWindow(const boost::int64_t nSurfaceProperties,
+        const WindowPtr_t CreateEglWindow(const boost::int64_t nSurfaceProperties,
                                        const std::string & strTitle, 
                                        int nX, int nY, int nWidth, int nHeight)
         {
@@ -487,8 +480,3 @@ namespace Egl
 
 } // namespace Egl
 
-// Restore the current definition of CreateWindow
-#ifdef OldCreateWindowDef
-    #define CreateWindow OldCreateWindowDef 
-    #undef OldCreateWindowDef
-#endif
