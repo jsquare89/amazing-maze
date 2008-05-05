@@ -375,8 +375,7 @@ namespace AmazingMaze
 //        m_pMazeMusic.reset(new CMazeMusic("sounds\\Tool - Reflection.mp3"));
 //        m_pMazeMusic->getSoundObject()->play();
 //        m_pMazeMusic->getSoundObject()->setRepeat(true);
-		m_pBackgroundMusicLibrary.reset(new CMazeMusicLibrary(L"C:\\Users\\yorgo\\Music\\maze test sounds\\*.mp3"));
-//		m_pBackgroundMusicLibrary.reset(new CMazeMusicLibrary(L"C:\\Users\\yorgo\\Documents\\Visual Studio 2008\\Projects\\630 Group Project\\AmazingMaze\\sounds\\*.mp3"));
+		m_pBackgroundMusicLibrary.reset(new CMazeMusicLibrary(L"sounds\\*.mp3"));
 		m_pBackgroundMusicTimer = this->GetContext()->CreateTimer();
 		m_pBackgroundMusicTimer->OnTick += boost::bind(&CMazeMusicLibrary::playLibrary,m_pBackgroundMusicLibrary);
 		m_pBackgroundMusicTimer->StartInterval(1000);
