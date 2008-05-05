@@ -116,6 +116,8 @@ namespace AmazingMaze
 	void CMazeMusicLibrary::setLibraryVolume (float volume)
 	{
 		m_volume = volume;
+		for (std::list<CMazeMusic>::iterator iter = m_musicLibrary.begin(); iter != m_musicLibrary.end(); iter++)
+			iter->setVolume(m_volume);
 	}
 
 	void CMazeMusicLibrary::increaseVolume ()
@@ -123,6 +125,8 @@ namespace AmazingMaze
 		float vol =	m_musicIter->getVolume() + 0.1;
 		if (vol > 1) vol = 1;
 		m_volume = vol;
+
+		setLibraryVolume (m_volume);
 	}
 
 	void CMazeMusicLibrary::decreaseVolume ()
@@ -130,5 +134,7 @@ namespace AmazingMaze
 		float vol =	m_musicIter->getVolume() - 0.1;
 		if (vol < 0) vol = 0;
 		m_volume = vol;
+
+		setLibraryVolume (m_volume);
 	}
 } // namespace AmazingMaze
