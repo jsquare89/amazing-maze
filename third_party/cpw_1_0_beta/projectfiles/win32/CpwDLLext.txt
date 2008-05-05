@@ -1,0 +1,8 @@
+
+This a copy of the CpwDLL project which adds the extensions
+released with the Cpw library for Win32.
+
+Supported Add-ons:
+
+1) OpenAL AO
+2) GL Extensions AO
