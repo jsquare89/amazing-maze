@@ -46,8 +46,8 @@ namespace Egl
 
     public:
 
-        /** Type of the OnClick event. */
-        typedef CEvent<CImageButton, void (), CLICK_EVENT> OnClickEvent_t;
+        /** Type of the Click event. */
+        typedef CEvent<CImageButton, CImageButton, CEventArgs, CLICK_EVENT> ClickEvent_t;
 
     public:
 
@@ -56,7 +56,7 @@ namespace Egl
          * or when the return key is pressed while the button
          * is in the selected state.
          */
-        OnClickEvent_t OnClick;
+        ClickEvent_t Click;
 
     public:
 
@@ -75,7 +75,7 @@ namespace Egl
         /** Select this button (changes the state to SelectedState). */
         void Select();
 
-        /** Press this button (changes the state to PressedState and fires OnClick event. */
+        /** Press this button (changes the state to PressedState and fires Click event. */
         void Press();
 
         /** Reset state to NormalState. */

@@ -5,6 +5,7 @@
 #include <boost/function.hpp>
 #include <boost/mpl/void.hpp>
 #include "Egl/Common.hpp"
+#include "Egl/EventArgs.hpp"
 
 namespace Egl
 {
@@ -13,13 +14,13 @@ namespace Egl
      *
      * @tparam TEventSoure Type of source that owns this event.
      */
-    template <typename TEventSource, typename TSinkSignature, int tEventId>
+    template <typename TEventSource, typename TEventSender, typename TEventArgs, int tEventId>
     class CEvent
-    {
+    {    
     public:
 
-        /** Type of sink think event accepts. */
-        typedef boost::function<TSinkSignature> EventSink_t;
+        /** Type of boost::function to store the sinks. */
+        typedef boost::function<void (const TEventSender &, TEventArgs &)> EventSink_t;
 
     private:
 
@@ -31,7 +32,7 @@ namespace Egl
         /** 
          * Constructor. 
          */
-        CEvent()
+        CEvent(void)
         {
         }
 
@@ -50,7 +51,7 @@ namespace Egl
          *
          * @return *this.
          */
-        template <class TSink>
+        template <typename TSink>
         CEvent & operator+=(const TSink & fSink)
         {
             // Lock a mutex since there could be a race condition 
@@ -81,7 +82,7 @@ namespace Egl
          *
          * @return *this.
          */
-        template <class TSink>
+        template <typename TSink>
         CEvent & operator-=(const TSink & fSink)
         {
             // Lock a mutex since there could be a race condition 
@@ -123,7 +124,7 @@ namespace Egl
         /**
          * Fires this event. Notify sinks (listeners).
          */
-        void Fire() const
+        void Fire(const TEventSender & rSender, TEventArgs & rArgs) const
         {
             // Lock a mutex since there could be a race condition 
             // between the caller adding itself as a sink and 
@@ -140,102 +141,7 @@ namespace Egl
                 try
                 {
                     // Call sink
-                    (*citSink)();
-                }
-                catch (...)
-                {
-                    // The sink threw an exception
-                    // TODO, add a log statement here
-                }
-            }
-        }
-
-        /**
-         * Fires this event. Notify sinks (listeners).
-         */
-        template <typename TParam1>
-        void Fire(TParam1 tParam1) const
-        {
-            // Lock a mutex since there could be a race condition 
-            // between the caller adding itself as a sink and 
-            // the event firing. The same mutex must be locked 
-            // in the operator+=() function.
-
-            // TODO add a scoped lock
-
-            // Notify sinks
-            for (Sinks_t::const_iterator citSink = m_vSinks.begin(); 
-                citSink != m_vSinks.end(); ++citSink)
-            {
-                // Call sink
-                try
-                {
-                    // Call sink
-                    (*citSink)(tParam1);
-                }
-                catch (...)
-                {
-                    // The sink threw an exception
-                    // TODO, add a log statement here
-                }
-            }
-        }
-
-        /**
-         * Fires this event. Notify sinks (listeners).
-         */
-        template <typename TParam1, typename TParam2>
-        void Fire(TParam1 tParam1, TParam2 tParam2) const
-        {
-            // Lock a mutex since there could be a race condition 
-            // between the caller adding itself as a sink and 
-            // the event firing. The same mutex must be locked 
-            // in the operator+=() function.
-
-            // TODO add a scoped lock
-
-            // Notify sinks
-            for (Sinks_t::const_iterator citSink = m_vSinks.begin(); 
-                citSink != m_vSinks.end(); ++citSink)
-            {
-                // Call sink
-                try
-                {
-                    // Call sink
-                    (*citSink)(tParam1, tParam2);
-                }
-                catch (...)
-                {
-                    // The sink threw an exception
-                    // TODO, add a log statement here
-                }
-            }
-        }
-
-        /**
-         * Fires this event. Notify sinks (listeners).
-         */
-        template <typename TParam1, typename TParam2, typename TParam3, 
-                  typename TParam4, typename TParam5>
-        void Fire(TParam1 tParam1, TParam2 tParam2, TParam3 tParam3, 
-                  TParam4 tParam4, TParam5 tParam5) const
-        {
-            // Lock a mutex since there could be a race condition 
-            // between the caller adding itself as a sink and 
-            // the event firing. The same mutex must be locked 
-            // in the operator+=() function.
-
-            // TODO add a scoped lock
-
-            // Notify sinks
-            for (Sinks_t::const_iterator citSink = m_vSinks.begin(); 
-                citSink != m_vSinks.end(); ++citSink)
-            {
-                // Call sink
-                try
-                {
-                    // Call sink
-                    (*citSink)(tParam1, tParam2, tParam3, tParam4, tParam5);
+                    (*citSink)(rSender, rArgs);
                 }
                 catch (...)
                 {

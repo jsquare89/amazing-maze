@@ -57,7 +57,7 @@ namespace Egl
         // but not exactly wrong either so for now this 
         // is the way it is.
         if (0 == m_nPositionConstant)
-            this->FireOnAnimationBeginEvent();
+            this->OnAnimationBegin();
 
         // On every tick we increment the position constant 
         // so we know where we are
@@ -70,7 +70,7 @@ namespace Egl
             m_pObject->MoveTo(m_pEnd);
 
             // Animation has ended, let everybody know
-            this->FireOnAnimationEndEvent();
+            this->OnAnimationEnd();
 
             // Are we looping back?
             if (m_bLoop)

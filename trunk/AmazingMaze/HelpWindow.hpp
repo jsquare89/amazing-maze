@@ -22,19 +22,25 @@ namespace AmazingMaze
 
     private:
 
-        /** Handles OnDraw event. */
-        void HandleOnDraw(void);
+        /** Handles Draw event. */
+        void HandleDraw(const Egl::CWindow &, Egl::CEventArgs & rArgs);
 
-        /** Handles OnReshape event. */
-        void HandleOnReshape(int nWidth, int nHeight);
+        /** Handles Reshape event. */
+        void HandleReshape(const Egl::CWindow &, Egl::CWindowReshapeEventArgs & rArgs);
 
-        /** Handle OnCreate event. */
-        void HandleOnCreate(void);
+        /** Handle Create event. */
+        void HandleCreate(const Egl::CWindow &, Egl::CEventArgs & rArgs);
 
-        /** Handle OnDestroy event. */
-        void HandleOnDestroy(void);
+        /** Handle Destroy event. */
+        void HandleDestroy(const Egl::CWindow &, Egl::CEventArgs & rArgs);
 
-        /** Handle OnKey event. */
-        void HandleOnKey(int nKeyCode, bool bIsSystemKey, Egl::KeyState_e eKeyState, int nCursorX, int nCursorY);
+        /** Handle Key event. */
+        void HandleKey(const Egl::CWindow &, Egl::CKeyEventArgs & rArgs);
+
+        /** Updates the projection matrix. */
+        void UpdateProjectionMatrix(const int nWidth, const int nHeight);
+
+        /** Updates the viewport. */
+        void UpdateViewport(const int nWidth, const int nHeight);
     };
 } // namespace AmazingMaze

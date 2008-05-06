@@ -15,10 +15,10 @@ namespace Egl
     public:
 
         /** Type of animation start event. */
-        typedef CEvent<CAnimator, void (), 0> OnAnimationBeginEvent_t;
+        typedef CEvent<CAnimator, CAnimator, CEventArgs, 0> AnimationBeginEvent_t;
 
         /** Type of animation end event. */
-        typedef CEvent<CAnimator, void (), 1> OnAnimationEndEvent_t;
+        typedef CEvent<CAnimator, CAnimator, CEventArgs, 1> AnimationEndEvent_t;
 
     public:        
         
@@ -104,12 +104,12 @@ namespace Egl
         /** 
          * Event fired when the animation begins.
          */
-        OnAnimationBeginEvent_t OnAnimationBegin;
+        AnimationBeginEvent_t AnimationBegin;
 
         /** 
          * Event fired when the animation ends.
          */
-        OnAnimationEndEvent_t OnAnimationEnd;
+        AnimationEndEvent_t AnimationEnd;
 
     protected:
 
@@ -151,23 +151,25 @@ namespace Egl
         /** 
          * Fire the animation begin event. 
          */
-        void FireOnAnimationBeginEvent()
+        void OnAnimationBegin()
         {
-            this->OnAnimationBegin.Fire();
+            CEventArgs args;
+            this->AnimationBegin.Fire(*this, args);
         }
 
         /** 
          * Fire the animation end event. 
          */
-        void FireOnAnimationEndEvent()
+        void OnAnimationEnd()
         {
-            this->OnAnimationEnd.Fire();
+            CEventArgs args;
+            this->AnimationEnd.Fire(*this, args);
         }
 
     private:
 
         /** Receives timer ticks. */
-        void HandleTimerOnTickEvent();
+        void HandleTimerTick(const CTimer & rTimer, CEventArgs & rEventArgs);
 
         // Avoid copy ctor and op=
         CAnimator(const CAnimator&);

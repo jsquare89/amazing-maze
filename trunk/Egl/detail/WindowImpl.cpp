@@ -27,7 +27,7 @@ namespace Egl
                 try
                 {
                     // Fire the event
-                    pWindowImpl->FireOnDrawEvent();
+                    pWindowImpl->OnDraw();
                 }
                 catch (...)
                 {
@@ -50,7 +50,7 @@ namespace Egl
                 try
                 {
                     // Fire the draw event
-                    pWindowImpl->FireOnReshapeEvent(nWidth, nHeight);
+                    pWindowImpl->OnReshape(nWidth, nHeight);
                 }
                 catch (...)
                 {
@@ -73,7 +73,7 @@ namespace Egl
                 try
                 {
                     // Fire the event
-                    pWindowImpl->FireOnKeyEvent(nKeyCode, false, 
+                    pWindowImpl->OnKey(nKeyCode, false, 
                         Egl::KeyState::detail::FromCpw(nKeyState), nCursorX, nCursorY);
                 }
                 catch (...)
@@ -97,7 +97,7 @@ namespace Egl
                 try
                 {
                     // Fire the event
-                    pWindowImpl->FireOnKeyEvent(nKeyCode, true, 
+                    pWindowImpl->OnKey(nKeyCode, true, 
                         Egl::KeyState::detail::FromCpw(nKeyState), nCursorX, nCursorY);
                 }
                 catch (...)
@@ -122,9 +122,9 @@ namespace Egl
                 {
                     // Fire the event
                     if (bFlag)
-                        pWindowImpl->FireOnCreateEvent();
+                        pWindowImpl->OnCreate();
                     else
-                        pWindowImpl->FireOnDestroyEvent();
+                        pWindowImpl->OnDestroy();
                 }
                 catch (...)
                 {
@@ -147,7 +147,7 @@ namespace Egl
                 try
                 {
                     // Fire the event
-                    pWindowImpl->FireOnMenuItemSelectedEvent(nMenuId, nEntryId);
+                    pWindowImpl->OnMenuItemSelected(nMenuId, nEntryId);
                 }
                 catch (...)
                 {
@@ -311,42 +311,48 @@ namespace Egl
         }
         
         void 
-        CWindowImpl::FireOnDrawEvent()
+        CWindowImpl::OnDraw()
         {
-            m_pWindow->OnDraw.Fire();            
+            CEventArgs args;
+            m_pWindow->Draw.Fire(*m_pWindow, args);            
         }
 
         void 
-        CWindowImpl::FireOnReshapeEvent(int nWidth, int nHeight)
+        CWindowImpl::OnReshape(int nWidth, int nHeight)
         {
-            m_pWindow->OnReshape.Fire(nWidth, nHeight);       
+            CWindowReshapeEventArgs args(nWidth, nHeight);
+            m_pWindow->Reshape.Fire(*m_pWindow, args);       
         }
 
         void 
-        CWindowImpl::FireOnKeyEvent(int nKeyCode, bool bIsSystemKey, Egl::KeyState_e eKeyState, int nCursorX, int nCursorY)
+        CWindowImpl::OnKey(int nKeyCode, bool bIsSystemKey, Egl::KeyState_e eKeyState, int nCursorX, int nCursorY)
         {
-            m_pWindow->OnKey.Fire(nKeyCode, bIsSystemKey, eKeyState, nCursorX, nCursorY);
+            CKeyEventArgs args(nKeyCode, bIsSystemKey, eKeyState, nCursorX, nCursorY);
+            m_pWindow->Key.Fire(*m_pWindow, args);
         }
 
         void 
-        CWindowImpl::FireOnCreateEvent()
+        CWindowImpl::OnCreate()
         {
-            m_pWindow->OnCreate.Fire();
+            CEventArgs args;
+            m_pWindow->Create.Fire(*m_pWindow, args);
         }
 
         void 
-        CWindowImpl::FireOnDestroyEvent()
+        CWindowImpl::OnDestroy()
         {
-            m_pWindow->OnDestroy.Fire();
+            CEventArgs args;
+            m_pWindow->Destroy.Fire(*m_pWindow, args);
         }
 
         void 
-        CWindowImpl::FireOnMenuItemSelectedEvent(int nMenuId, int nItemId)
+        CWindowImpl::OnMenuItemSelected(int nMenuId, int nItemId)
         {
+            CMenuItemEventArgs args(nItemId);
             if (m_pTitlebarMenu && (m_pTitlebarMenu->GetImpl().GetId() == nMenuId))
-                m_pWindow->OnTitlebarMenuItemSelected.Fire(nItemId);
+                m_pWindow->TitlebarMenuItemSelected.Fire(*m_pWindow, args);
             else if (m_pContextMenu && (m_pContextMenu->GetImpl().GetId() == nMenuId))
-                m_pWindow->OnContextMenuItemSelected.Fire(nItemId);
+                m_pWindow->ContextMenuItemSelected.Fire(*m_pWindow, args);
         }
 
         void 

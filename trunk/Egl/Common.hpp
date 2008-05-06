@@ -103,4 +103,10 @@ namespace Egl
 
     /** Type of CImageButton shared pointer. */
     typedef boost::shared_ptr<CImageButton> ImageButtonPtr_t;
+
+    /** Forward declaration of CScene. */
+    class CScene;
+
+    /** Type of scene shared pointer. */
+    typedef boost::shared_ptr<CScene> ScenePtr_t;
 } //namespace Egl

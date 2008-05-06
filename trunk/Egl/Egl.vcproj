@@ -217,6 +217,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Scene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SceneManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\StraightPathAnimator.cpp"
 				>
 			</File>
@@ -283,6 +291,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EventArgs.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Font.hpp"
 				>
 			</File>
@@ -292,6 +304,10 @@
 			</File>
 			<File
 				RelativePath=".\ImageButton.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\KeyEventArgs.hpp"
 				>
 			</File>
 			<File
@@ -312,6 +328,10 @@
 			</File>
 			<File
 				RelativePath=".\Menu.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MenuItemEventArgs.hpp"
 				>
 			</File>
 			<File
@@ -343,6 +363,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Scene.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SceneManager.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\StraightPathAnimator.hpp"
 				>
 			</File>
@@ -364,6 +392,10 @@
 			</File>
 			<File
 				RelativePath=".\Window.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\WindowReshapeEventArgs.hpp"
 				>
 			</File>
 			<Filter

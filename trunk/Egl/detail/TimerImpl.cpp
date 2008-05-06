@@ -18,7 +18,7 @@ namespace Egl
                 try
                 {
                     // Fire the event
-                    pTimerImpl->FireOnTickEvent();
+                    pTimerImpl->OnTick();
                 }
                 catch (...)
                 {
@@ -157,9 +157,10 @@ namespace Egl
         }
         
         void 
-        CTimerImpl::FireOnTickEvent()
+        CTimerImpl::OnTick()
         {
-            m_pTimer->OnTick.Fire();            
+            CEventArgs args;
+            m_pTimer->Tick.Fire(*m_pTimer, args);            
         }        
     }    
 } // namespace Egl

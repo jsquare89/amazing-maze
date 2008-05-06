@@ -9,6 +9,9 @@
 #include "Egl/3DPoint.hpp"
 #include <boost/cstdint.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include "Egl/WindowReshapeEventArgs.hpp"
+#include "Egl/KeyEventArgs.hpp"
+#include "Egl/MenuItemEventArgs.hpp"
 
 namespace Egl
 {
@@ -285,7 +288,7 @@ namespace Egl
         /**
          * Sets the titlebar menu of this window. To receive notifications
          * when the menu items are selected subscribe to the 
-         * OnTitlebarMenuItemSelected event.
+         * TitlebarMenuItemSelected event.
          *
          * @param pMenu Menu to set as title bar. This menu must have
          *              been created with the same CContext instance that
@@ -298,7 +301,7 @@ namespace Egl
         /**
          * Sets the context menu of this window. To receive notifications
          * when the menu items are selected subscribe to the 
-         * OnContextMenuItemSelected event.
+         * ContextMenuItemSelected event.
          *
          * @param pMenu Menu to set as title bar. This menu must have
          *              been created with the same CContext instance that
@@ -366,29 +369,29 @@ namespace Egl
             /** An item is selected in the context menu. */
             CONTEXT_MENU_ITEM_SELECT_EVENT
         };
-
+        
     public:
 
-        /** Type of the OnDraw event. */
-        typedef CEvent<detail::CWindowImpl, void (), DRAW_EVENT> OnDrawEvent_t;
+        /** Type of the Draw event. */
+        typedef CEvent<detail::CWindowImpl, CWindow, CEventArgs, DRAW_EVENT> DrawEvent_t;
 
-        /** Type of the OnReshape event. */
-        typedef CEvent<detail::CWindowImpl, void (int, int), RESHAPE_EVENT> OnReshapeEvent_t;
+        /** Type of the Reshape event. */
+        typedef CEvent<detail::CWindowImpl, CWindow, CWindowReshapeEventArgs, RESHAPE_EVENT> ReshapeEvent_t;
 
-        /** Type of the OnKey event. */
-        typedef CEvent<detail::CWindowImpl, void (int, bool, KeyState_e, int, int), WINDOW_KEY_EVENT> OnKeyEvent_t;
+        /** Type of the Key event. */
+        typedef CEvent<detail::CWindowImpl, CWindow, CKeyEventArgs, WINDOW_KEY_EVENT> KeyEvent_t;
 
-        /** Type of the OnCreate event. */
-        typedef CEvent<detail::CWindowImpl, void (), CREATE_EVENT> OnCreateEvent_t;
+        /** Type of the Create event. */
+        typedef CEvent<detail::CWindowImpl, CWindow, CEventArgs, CREATE_EVENT> CreateEvent_t;
 
-        /** Type of the OnDestroy event. */
-        typedef CEvent<detail::CWindowImpl, void (), DESTROY_EVENT> OnDestroyEvent_t;
+        /** Type of the Destroy event. */
+        typedef CEvent<detail::CWindowImpl, CWindow, CEventArgs, DESTROY_EVENT> DestroyEvent_t;
 
-        /** Type of the OnTitlebarMenuItemSelected event. */
-        typedef CEvent<detail::CWindowImpl, void (int), TITLEBAR_MENU_ITEM_SELECT_EVENT> OnTitlebarMenuItemSelectedEvent_t;
+        /** Type of the TitlebarMenuItemSelected event. */
+        typedef CEvent<detail::CWindowImpl, CWindow, CMenuItemEventArgs, TITLEBAR_MENU_ITEM_SELECT_EVENT> TitlebarMenuItemSelectedEvent_t;
 
-        /** Type of the OnContextMenuItemSelected event. */
-        typedef CEvent<detail::CWindowImpl, void (int), CONTEXT_MENU_ITEM_SELECT_EVENT> OnContextMenuItemSelectedEvent_t;
+        /** Type of the ContextMenuItemSelected event. */
+        typedef CEvent<detail::CWindowImpl, CWindow, CMenuItemEventArgs, CONTEXT_MENU_ITEM_SELECT_EVENT> ContextMenuItemSelectedEvent_t;
 
     public:
 
@@ -397,35 +400,35 @@ namespace Egl
          * To receive this event you must subscribe to it by using
          * the += operator. 
          */
-        OnDrawEvent_t OnDraw;
+        DrawEvent_t Draw;
 
         /**
          * Event that will fire when the window is resized.
          * To receive this event you must subscribe to it by using
          * the += operator.
          */
-        OnReshapeEvent_t OnReshape;
+        ReshapeEvent_t Reshape;
 
         /**
          * Event that will fire when a key is pressed or released while the 
          * To receive this event you must subscribe to it by using
          * the += operator.
          */
-        OnKeyEvent_t OnKey;
+        KeyEvent_t Key;
 
         /**
          * Event that will fire when the window is created.
          * To receive this event you must subscribe to it by using
          * the += operator.
          */
-        OnCreateEvent_t OnCreate;
+        CreateEvent_t Create;
 
         /**
          * Event that will fire when the window is destroyed.
          * To receive this event you must subscribe to it by using
          * the += operator.
          */
-        OnDestroyEvent_t OnDestroy;
+        DestroyEvent_t Destroy;
 
         /**
          * Event that will fire when an item is selected in thre
@@ -433,7 +436,7 @@ namespace Egl
          * To receive this event you must subscribe to it by using
          * the += operator.
          */
-        OnTitlebarMenuItemSelectedEvent_t OnTitlebarMenuItemSelected;
+        TitlebarMenuItemSelectedEvent_t TitlebarMenuItemSelected;
 
         /**
          * Event that will fire when an item is selected in thre
@@ -441,7 +444,7 @@ namespace Egl
          * To receive this event you must subscribe to it by using
          * the += operator.
          */
-        OnContextMenuItemSelectedEvent_t OnContextMenuItemSelected;
+        ContextMenuItemSelectedEvent_t ContextMenuItemSelected;
 
 
     protected:

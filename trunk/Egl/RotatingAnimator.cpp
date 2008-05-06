@@ -69,7 +69,7 @@ namespace Egl
             (m_nZRotation == m_nStartAngle))
         {
             // Animation has started
-            this->FireOnAnimationBeginEvent();
+            this->OnAnimationBegin();
         }
 
         // Effective rotation increments
@@ -123,7 +123,7 @@ namespace Egl
             ((m_nZRotation == m_nEndAngle) || (0 == m_nZRotationIncrement)))
         {        
             // Animation has ended, let everybody know
-            this->FireOnAnimationEndEvent();
+            this->OnAnimationEnd();
 
             // Are we looping back?
             if (m_bLoop)

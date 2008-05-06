@@ -11,11 +11,11 @@ namespace AmazingMaze
     {
         // We are interested in listening to
         // some events        
-        this->OnDraw += boost::bind(&CHelpWindow::HandleOnDraw, this);
-        this->OnCreate += boost::bind(&CHelpWindow::HandleOnCreate, this);
-        this->OnDestroy += boost::bind(&CHelpWindow::HandleOnDestroy, this);
-        this->OnReshape += boost::bind(&CHelpWindow::HandleOnReshape, this, _1, _2);
-        this->OnKey += boost::bind(&CHelpWindow::HandleOnKey, this, _1, _2, _3, _4, _5);        
+        this->Draw += boost::bind(&CHelpWindow::HandleDraw, this, _1, _2);
+        this->Create += boost::bind(&CHelpWindow::HandleCreate, this, _1, _2);
+        this->Destroy += boost::bind(&CHelpWindow::HandleDestroy, this, _1, _2);
+        this->Reshape += boost::bind(&CHelpWindow::HandleReshape, this, _1, _2);
+        this->Key += boost::bind(&CHelpWindow::HandleKey, this, _1, _2);        
     }
 
     CHelpWindow::~CHelpWindow(void)
@@ -23,7 +23,7 @@ namespace AmazingMaze
     }
 
     void
-    CHelpWindow::HandleOnDraw(void)
+    CHelpWindow::HandleDraw(const Egl::CWindow &, Egl::CEventArgs &)
     {
         // Set background color
         glClearColor(0, 0, 0, 0.0);
@@ -71,30 +71,41 @@ namespace AmazingMaze
     }
 
     void 
-    CHelpWindow::HandleOnReshape(int nWidth, int nHeight)
+    CHelpWindow::UpdateProjectionMatrix(const int, const int)
     {
-        glViewport(0, 0, nWidth, nHeight);
+        // Set projection matrix
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         gluOrtho2D(0, 1.0, 0, 1.0);
     }
 
     void 
-    CHelpWindow::HandleOnKey(int nKeyCode, bool bIsSystemKey, Egl::KeyState_e eKeyState, int nCursorX, int nCursorY)
+    CHelpWindow::UpdateViewport(const int nWidth, const int nHeight)
     {
-        // Avoid warning
-        nCursorX;
-        nCursorY;
+        // Set vieweport
+        glViewport(0, 0, nWidth, nHeight);
+    }
 
+    void 
+    CHelpWindow::HandleReshape(const Egl::CWindow &, Egl::CWindowReshapeEventArgs & rArgs)
+    {
+        // Set projection matrix and viewport
+        this->UpdateProjectionMatrix(rArgs.GetWidth(), rArgs.GetHeight());
+        this->UpdateViewport(rArgs.GetWidth(), rArgs.GetHeight());
+    }
+
+    void 
+    CHelpWindow::HandleKey(const Egl::CWindow &, Egl::CKeyEventArgs & rArgs)
+    {
         // Non system key and key being released?
-        if (!bIsSystemKey && (Egl::KeyState::DOWN == eKeyState))
+        if (!rArgs.IsSystemKey() && (Egl::KeyState::DOWN == rArgs.GetState()))
         {
             // Current locale
             std::locale loc("");
 
             // Switch on the key
             switch (std::use_facet<std::ctype<char> > (loc).
-                toupper(static_cast<char>(nKeyCode)))
+                toupper(static_cast<char>(rArgs.GetCharCode())))
             {
                 // help key
                 case 'I': 
@@ -108,19 +119,18 @@ namespace AmazingMaze
     }
 
     void
-    CHelpWindow::HandleOnCreate(void)
+    CHelpWindow::HandleCreate(const Egl::CWindow &, Egl::CEventArgs &)
     {
-        // Force a "reshape" so the right 
-        // projection matrix and viewport
-        // are set
-        this->HandleOnReshape(this->GetWidth(), this->GetHeight());        	
+        // Set projection matrix and viewport
+        this->UpdateProjectionMatrix(this->GetWidth(), this->GetHeight());
+        this->UpdateViewport(this->GetWidth(), this->GetHeight());
 
         // Set background color
         glClearColor(0.0, 0.0, 0.0, 0.0);                
     }
 
     void
-    CHelpWindow::HandleOnDestroy(void)
+    CHelpWindow::HandleDestroy(const Egl::CWindow &, Egl::CEventArgs &)
     {
         // Post quit message to message loop
         //this->GetContext()->BreakMainLoop();
