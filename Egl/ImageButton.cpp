@@ -90,7 +90,8 @@ namespace Egl
         this->RefreshWindow();
 
         // Fire on click event
-        this->OnClick.Fire();
+        CEventArgs args;
+        this->Click.Fire(*this, args);
     }
 
     /** Sets the image to use for a given state. */

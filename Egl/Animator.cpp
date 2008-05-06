@@ -21,7 +21,7 @@ namespace Egl
     {
         // Subscribe to timer.
         if (m_pTimer)
-            m_pTimer->OnTick += boost::bind(&CAnimator::HandleTimerOnTickEvent, this);
+            m_pTimer->Tick += boost::bind(&CAnimator::HandleTimerTick, this, _1, _2);
     }
 
     CAnimator::CAnimator(const TimerPtr_t & pTimer, 
@@ -33,7 +33,7 @@ namespace Egl
     {
         // Subscribe to timer.
         if (m_pTimer)
-            m_pTimer->OnTick += boost::bind(&CAnimator::HandleTimerOnTickEvent, this);
+            m_pTimer->Tick += boost::bind(&CAnimator::HandleTimerTick, this, _1, _2);
     }
 
     // virtual 
@@ -41,11 +41,11 @@ namespace Egl
     {
         // Unsubscribe from timer.
         if (m_pTimer)
-            m_pTimer->OnTick -= boost::bind(&CAnimator::HandleTimerOnTickEvent, this);
+            m_pTimer->Tick -= boost::bind(&CAnimator::HandleTimerTick, this, _1, _2);
     }
 
     void
-    CAnimator::HandleTimerOnTickEvent()
+    CAnimator::HandleTimerTick(const CTimer &, CEventArgs &)
     {
         // Are we paused?
         if (!m_bPaused)
@@ -71,13 +71,13 @@ namespace Egl
     { 
         // Unsubscribe from previous timer
         if (m_pTimer)
-            m_pTimer->OnTick -= boost::bind(&CAnimator::HandleTimerOnTickEvent, this);
+            m_pTimer->Tick -= boost::bind(&CAnimator::HandleTimerTick, this, _1, _2);
 
         m_pTimer = pTimer; 
 
         // Subscribe to this timer
         if (m_pTimer)
-            m_pTimer->OnTick += boost::bind(&CAnimator::HandleTimerOnTickEvent, this);
+            m_pTimer->Tick += boost::bind(&CAnimator::HandleTimerTick, this, _1, _2);
     }
 
 } // namespace Egl

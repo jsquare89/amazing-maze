@@ -72,22 +72,22 @@ namespace Egl
             const ContextPtr_t & GetContext() const { return m_pContext; }
 
             /** Fire draw event. */
-            void FireOnDrawEvent();
+            void OnDraw();
 
             /** Fire reshape event. */
-            void FireOnReshapeEvent(int nWidth, int nHeight);
+            void OnReshape(int nWidth, int nHeight);
 
-            /** Fire OnKey event. */
-            void FireOnKeyEvent(int nKeyCode, bool bIsSystemKey, Egl::KeyState_e eKeyState, int nCursorX, int nCursorY);
+            /** Fire Key event. */
+            void OnKey(int nKeyCode, bool bIsSystemKey, Egl::KeyState_e eKeyState, int nCursorX, int nCursorY);
 
-            /** Fire OnCreate event. */
-            void FireOnCreateEvent();
+            /** Fire Create event. */
+            void OnCreate();
 
-            /** Fire OnDestroy event. */
-            void FireOnDestroyEvent();
+            /** Fire Destroy event. */
+            void OnDestroy();
 
-            /** Fire OnTitlebarMenuItemSelected or OnContextMenuItemSelected event. */
-            void FireOnMenuItemSelectedEvent(int nMenuId, int nItemId);
+            /** Fire TitlebarMenuItemSelected or ContextMenuItemSelected event. */
+            void OnMenuItemSelected(int nMenuId, int nItemId);
 
             /** Swaps the buffers of this screen. */
             void SwapBuffers();
@@ -135,14 +135,14 @@ namespace Egl
             /**
              * Sets the titlebar menu of this window. To receive notifications
              * when the menu items are selected subscribe to the 
-             * OnTitlebarMenuItemSelected event.
+             * TitlebarMenuItemSelected event.
              */
             void SetTitlebarMenu(const MenuPtr_t & pMenu);
 
             /**
              * Sets the context menu of this window. To receive notifications
              * when the menu items are selected subscribe to the 
-             * OnContextMenuItemSelected event.
+             * ContextMenuItemSelected event.
              */
             void SetContextMenu(const MenuPtr_t & pMenu, const MouseButton_e eMouseButton);
 

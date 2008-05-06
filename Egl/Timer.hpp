@@ -20,7 +20,7 @@ namespace Egl
         
         /** 
          * Starts the timer in repeating mode. The timer will 
-         * invoke the OnTick event on a regular basis (how often 
+         * invoke the Tick event on a regular basis (how often 
          * depends on the interval parameter.
          *
          * @param nIntervalTime Time between ticks in milliseconds.
@@ -34,7 +34,7 @@ namespace Egl
 
         /** 
          * Starts the timer in single-shot mode. The timer will 
-         * invoke the OnTick event once when the time is ellapsed.
+         * invoke the Tick event once when the time is ellapsed.
          *
          * @param nTimeoutTime Time to wait before ticking.
          */
@@ -51,8 +51,8 @@ namespace Egl
 
     public:
 
-        /** Type of the OnDraw event. */
-        typedef CEvent<detail::CTimerImpl, void (), 0> OnTickEvent_t;
+        /** Type of the Draw event. */
+        typedef CEvent<detail::CTimerImpl, CTimer, CEventArgs, 0> TickEvent_t;
 
     public:
 
@@ -61,7 +61,7 @@ namespace Egl
          * To receive this event you must subscribe to it by using
          * the += operator. 
          */
-        OnTickEvent_t OnTick;
+        TickEvent_t Tick;
 
     protected:
 

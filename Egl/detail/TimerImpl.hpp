@@ -31,7 +31,7 @@ namespace Egl
         
             /** 
              * Starts the timer in repeating mode. The timer will 
-             * invoke the OnTick event on a regular basis (how often 
+             * invoke the Tick event on a regular basis (how often 
              * depends on the interval parameter.
              *
              * @param nIntervalTime Time between ticks in milliseconds.
@@ -45,7 +45,7 @@ namespace Egl
 
             /** 
              * Starts the timer in single-shot mode. The timer will 
-             * invoke the OnTick event once when the time is ellapsed.
+             * invoke the Tick event once when the time is ellapsed.
              *
              * @param nTimeoutTime Time to wait before ticking.
              */
@@ -54,8 +54,8 @@ namespace Egl
             /** Retrieves the context for this timer. */
             const ContextPtr_t & GetContext() const { return m_pContext; }
 
-            /** Fire OnTick event. */
-            void FireOnTickEvent();
+            /** Fire Tick event. */
+            void OnTick();
             
             /** 
              * Registers a given timer.

@@ -19,7 +19,7 @@
 
 namespace AmazingMaze
 {
-    CMainWindow::CMainWindow(void) : CWindow(),
+    CMainWindow::CMainWindow(void) : Egl::CWindow(),
                                      m_vLights(),
                                      m_pCamera(),
                                      m_pBackgroundTexture(),
@@ -34,11 +34,11 @@ namespace AmazingMaze
     {
         // We are interested in listening to
         // some events                
-        this->OnCreate += boost::bind(&CMainWindow::HandleOnCreate, this);        
-        this->OnDestroy += boost::bind(&CMainWindow::HandleOnDestroy, this);
+        this->Create += boost::bind(&CMainWindow::HandleCreate, this, _1, _2);        
+        this->Destroy += boost::bind(&CMainWindow::HandleDestroy, this, _1, _2);
 
-        this->OnReshape += boost::bind(&CMainWindow::HandleOnReshape, this, _1, _2);
-        this->OnKey += boost::bind(&CMainWindow::HandleOnKey, this, _1, _2, _3, _4, _5);        
+        this->Reshape += boost::bind(&CMainWindow::HandleReshape, this, _1, _2);
+        this->Key += boost::bind(&CMainWindow::HandleKey, this, _1, _2);        
     }
 
     CMainWindow::~CMainWindow(void)
@@ -48,7 +48,7 @@ namespace AmazingMaze
     }
 
     void
-    CMainWindow::HandleOnDraw(void)
+    CMainWindow::HandleDraw(const Egl::CWindow &, Egl::CEventArgs &)
     {
         // Clear the background
         glMatrixMode(GL_MODELVIEW);
@@ -102,7 +102,7 @@ namespace AmazingMaze
     }
 
     void 
-    CMainWindow::HandleOnReshape(int nWidth, int nHeight)
+    CMainWindow::UpdateProjectionMatrix(const int nWidth, const int nHeight)
     {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();	
@@ -111,32 +111,41 @@ namespace AmazingMaze
             static_cast<GLdouble>(nWidth) / nHeight, // aspect ratio
             1.0, // Z near 
             100.0 // Z far
-        );	
+        );
+    }
 
-        // Set new viewport
-        glMatrixMode(GL_MODELVIEW);
+    void 
+    CMainWindow::UpdateViewport(const int nWidth, const int nHeight)
+    {
+        // Set new viewport        
         glViewport(0, 0, nWidth, nHeight);        
     }
 
     void 
-    CMainWindow::HandleOnKey(int nKeyCode, bool bIsSystemKey, Egl::KeyState_e eKeyState, int nCursorX, int nCursorY)
+    CMainWindow::HandleReshape(const Egl::CWindow &, Egl::CWindowReshapeEventArgs & rArgs)
     {
-        // Avoid warning
-        nCursorX;
-        nCursorY;
+        // Update projection matrix.
+        this->UpdateProjectionMatrix(rArgs.GetWidth(), rArgs.GetHeight());
 
+        // update viewport
+        this->UpdateViewport(rArgs.GetWidth(), rArgs.GetHeight());        
+    }
+
+    void 
+    CMainWindow::HandleKey(const Egl::CWindow &, Egl::CKeyEventArgs & rArgs)
+    {
         // Non system key and key being released?
-        if ((Egl::KeyState::DOWN == eKeyState))
+        if ((Egl::KeyState::DOWN == rArgs.GetState()))
         {
             // Regular key?
-            if (!bIsSystemKey)
+            if (!rArgs.IsSystemKey())
             {
                 // Current locale
                 std::locale loc("");
 
                 // Switch on the key
                 switch (std::use_facet<std::ctype<char> > (loc).
-                    toupper(static_cast<char>(nKeyCode)))
+                    toupper(static_cast<char>(rArgs.GetCharCode())))
                 {
                     // Exit key
                     case 'Q':
@@ -161,7 +170,7 @@ namespace AmazingMaze
             }
             else // System key
             {
-                switch (nKeyCode)
+                switch (rArgs.GetCharCode())
                 {
                     // Left arrow
                     case 13:
@@ -238,15 +247,14 @@ namespace AmazingMaze
     }
 
     void
-    CMainWindow::HandleOnCreate(void)
+    CMainWindow::HandleCreate(const Egl::CWindow &, Egl::CEventArgs &)
     {
         // Load background texture
         m_pBackgroundTexture = this->GetContext()->LoadTexture("textures/background2.jpg");
         
-        // Force a "reshape" so the right 
-        // projection matrix and viewport
-        // are set
-        this->HandleOnReshape(this->GetWidth(), this->GetHeight());        	        
+        // Update projection and viewport
+        this->UpdateProjectionMatrix(this->GetWidth(), this->GetHeight());
+        this->UpdateViewport(this->GetWidth(), this->GetHeight());
         
         // Enable texture
         glEnable(GL_TEXTURE_2D);
@@ -298,7 +306,7 @@ namespace AmazingMaze
         //glEnable(GL_BLEND);
         //glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
-        // Tittle image
+        // Title image
         m_pTitleImage.reset(new Egl::CImage(0, 0, 0,
             10.0f, 2.0f, this->GetContext()->LoadTexture("textures/title.png")));
         m_pTitleImage->MoveTo(-2, 3, 0);        
@@ -366,7 +374,7 @@ namespace AmazingMaze
         m_pContextMenu->AddItem("Show help window", TOGGLE_HELP_MENU_ITEM_ID, false);        
         m_pContextMenu->AddItem("Show credits", TOGGLE_CREDITS_MENU_ITEM_ID, false);
         m_pContextMenu->AddItem("Quit", QUIT_MENU_ITEM_ID, false);
-        this->OnContextMenuItemSelected += boost::bind(&CMainWindow::HandleOnContextMenuItemSelected, this, _1);
+        this->ContextMenuItemSelected += boost::bind(&CMainWindow::HandleContextMenuItemSelected, this, _1, _2);
         this->SetContextMenu(m_pContextMenu, Egl::MouseButton::RIGHT);
 
         // 
@@ -377,15 +385,15 @@ namespace AmazingMaze
 //        m_pMazeMusic->getSoundObject()->setRepeat(true);
 		m_pBackgroundMusicLibrary.reset(new CMazeMusicLibrary(L"sounds\\*.mp3"));
 		m_pBackgroundMusicTimer = this->GetContext()->CreateTimer();
-		m_pBackgroundMusicTimer->OnTick += boost::bind(&CMazeMusicLibrary::playLibrary,m_pBackgroundMusicLibrary);
+		m_pBackgroundMusicTimer->Tick += boost::bind(&CMazeMusicLibrary::playLibrary,m_pBackgroundMusicLibrary);
 		m_pBackgroundMusicTimer->StartInterval(1000);
 
         // Now we can handle draw events
-        this->OnDraw += boost::bind(&CMainWindow::HandleOnDraw, this);        
+        this->Draw += boost::bind(&CMainWindow::HandleDraw, this, _1, _2);        
     }
 
     void
-    CMainWindow::HandleOnDestroy(void)
+    CMainWindow::HandleDestroy(const Egl::CWindow &, Egl::CEventArgs &)
     {
         // Post quit message to message loop
         this->GetContext()->BreakMainLoop();
@@ -416,10 +424,10 @@ namespace AmazingMaze
     }
 
     void 
-    CMainWindow::HandleOnContextMenuItemSelected(int nMenuItemId)
+    CMainWindow::HandleContextMenuItemSelected(const Egl::CWindow &, Egl::CMenuItemEventArgs & rArgs)
     {
         // Switch on the ID of the item
-        switch (nMenuItemId)
+        switch (rArgs.GetItemId())
         {
             // Toggle help
             case TOGGLE_HELP_MENU_ITEM_ID:

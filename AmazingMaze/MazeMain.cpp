@@ -24,7 +24,7 @@ namespace AmazingMaze
     }
 
     void
-    CApp::Run(int argc, char **argv)
+    CApp::Run(int, char **)
     {
         // Create main window
         m_pMainWindow = m_pContext->
@@ -53,6 +53,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 {
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
+    UNREFERENCED_PARAMETER(nCmdShow);
+    UNREFERENCED_PARAMETER(hInstance);
 
  	// TODO: Place code here.
 	//MSG msg;
