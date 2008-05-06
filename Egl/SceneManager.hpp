@@ -16,7 +16,7 @@ namespace Egl
     public:        
         
         /** Constructor. */
-        explicit CSceneManager(const ScenePtr_t & pScene);
+        CSceneManager();
 
         /** Destructor. */
         ~CSceneManager(void) throw();

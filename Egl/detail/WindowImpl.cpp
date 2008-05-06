@@ -272,12 +272,15 @@ namespace Egl
         CWindowImpl::Resize(int nWidth, int nHeight)
         {
             // Set size
-            cpwReshapeWindow(m_pContextHandle, 
-                static_cast<unsigned int>(nWidth),
-                static_cast<unsigned int>(nHeight),
-                m_nHandle);
-            m_nWidth = nWidth;
-            m_nHeight = nHeight;            
+            if ((m_nWidth != nWidth) || (m_nHeight != nHeight))
+            {
+                m_nWidth = nWidth;
+                m_nHeight = nHeight;    
+                cpwReshapeWindow(m_pContextHandle, 
+                    static_cast<unsigned int>(nWidth),
+                    static_cast<unsigned int>(nHeight),
+                    m_nHandle);                
+            }
         }
 
         void
@@ -320,6 +323,15 @@ namespace Egl
         void 
         CWindowImpl::OnReshape(int nWidth, int nHeight)
         {
+            // Update our width and height if they 
+            // are not current already
+            if ((m_nWidth != nWidth) || (m_nHeight != nHeight))
+            {
+                m_nWidth = nWidth;
+                m_nHeight = nHeight;    
+            }
+
+            // Fire reshape event
             CWindowReshapeEventArgs args(nWidth, nHeight);
             m_pWindow->Reshape.Fire(*m_pWindow, args);       
         }

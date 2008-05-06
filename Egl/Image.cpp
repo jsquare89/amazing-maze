@@ -100,7 +100,7 @@ namespace Egl
             glMatrixMode(GL_MODELVIEW);
             glPushMatrix();
             const Egl::C3DPoint<float> & pLocation = this->GetPosition();
-            glTranslatef(pLocation.GetX(), pLocation.GetY(), pLocation.GetZ());
+            //glTranslatef(pLocation.GetX(), pLocation.GetY(), pLocation.GetZ());
             glScalef(this->GetXScale(), this->GetYScale(), this->GetZScale());
             
             // Rotate
@@ -119,26 +119,26 @@ namespace Egl
             // Draw item at the right place                
             glBegin(GL_QUADS);
             {
-                // Bottom Left
-                glTexCoord2f(0, 0);
+                // Top left
+                glTexCoord2f(0, 1);
 	            glVertex3f(this->GetPosition().GetX(), 
                     this->GetPosition().GetY(), 
                     this->GetPosition().GetZ());
 
-                // Top Left
-                glTexCoord2f(0, 1);
+                // Bottom Left
+                glTexCoord2f(0, 0);                                                                                                
                 glVertex3f(this->GetPosition().GetX(),  
-                    this->GetPosition().GetY() - m_nHeight, 
+                    this->GetPosition().GetY() + m_nHeight, 
                     this->GetPosition().GetZ());
 
-                // Top Right
-                glTexCoord2f(1, 1);
+                // Bottom right
+                glTexCoord2f(1, 0);                                                                                
 	            glVertex3f(this->GetPosition().GetX() + m_nWidth,  
-                    this->GetPosition().GetY() - m_nHeight, 
+                    this->GetPosition().GetY() + m_nHeight, 
                     this->GetPosition().GetZ());
 
-                // Bottom Right
-                glTexCoord2f(1, 0);
+                // Top right
+                glTexCoord2f(1, 1);                          
 	            glVertex3f(this->GetPosition().GetX() + m_nWidth, 
                     this->GetPosition().GetY(), 
                     this->GetPosition().GetZ());

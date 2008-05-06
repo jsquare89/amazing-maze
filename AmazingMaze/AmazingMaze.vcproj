@@ -185,7 +185,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CreditScene.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HelpWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MainScene.cpp"
 				>
 			</File>
 			<File
@@ -224,6 +232,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\TextScene.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -235,7 +247,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CreditScene.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HelpWindow.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MainScene.hpp"
 				>
 			</File>
 			<File
@@ -264,6 +284,10 @@
 			</File>
 			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TextScene.hpp"
 				>
 			</File>
 		</Filter>

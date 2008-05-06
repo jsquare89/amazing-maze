@@ -5,10 +5,9 @@
 
 namespace Egl
 {
-    // explicit 
-    CSceneManager::CSceneManager(const ScenePtr_t & pScene) : m_sScenes()
+    CSceneManager::CSceneManager() : m_sScenes()
     {
-        m_sScenes.push(pScene);
+        
     }
 
     CSceneManager::~CSceneManager(void) throw()
@@ -18,19 +17,36 @@ namespace Egl
     CSceneManager & 
     CSceneManager::PushScene(const ScenePtr_t & pScene)
     {
+        // If we have a current scene then unload it. 
+        if (!m_sScenes.empty())
+            m_sScenes.top()->OnUnload();
+
         // Push scene
         m_sScenes.push(pScene);
+
+        // Load the new top scene
+        m_sScenes.top()->OnLoad();
+
         return *this;
     }
 
     CSceneManager & 
     CSceneManager::PopScene(const std::size_t nCount /* = 1 */)
     {
+        // If we have a current scene then unload it. 
+        if (!m_sScenes.empty())
+            m_sScenes.top()->OnUnload();
+
         // Pop scenes
         for (std::size_t i = 0; i < nCount; ++i)
         {
+            // Pop it
             m_sScenes.pop();
         }
+
+        // If we have a current scene then load it. 
+        if (!m_sScenes.empty())
+            m_sScenes.top()->OnLoad();
 
         return *this;
     }

@@ -109,4 +109,23 @@ namespace Egl
 
     /** Type of scene shared pointer. */
     typedef boost::shared_ptr<CScene> ScenePtr_t;
+
+    /** Forward declaration of CSceneManager. */
+    class CSceneManager;
+
+    /** Type of scene manager shared pointer. */
+    typedef boost::shared_ptr<CSceneManager> SceneManagerPtr_t;
+
+    /** Forward declaration of CEventArgs. */
+    struct CEventArgs;
+
+    /** Forward declaration of CWindowReshapeEventArgs. */
+    class CWindowReshapeEventArgs;
+
+    /** Forward declaration of CMenuItemEventArgs. */
+    class CMenuItemEventArgs;
+
+    /** Forward declaration of CKeyEventArgs. */
+    class CKeyEventArgs;
+
 } //namespace Egl
