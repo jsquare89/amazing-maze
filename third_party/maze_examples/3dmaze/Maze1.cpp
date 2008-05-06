@@ -35,11 +35,15 @@ static GLfloat theta[] = {0.0,0.0,0.0};
 static GLint axis = 2;
 static GLdouble viewer[]= {0.0, 0.0, 5.0}; /* initial viewer location */
 
-static GLfloat near_clip = 0.25;
-static GLfloat far_clip = 50.0;
-static GLfloat field_of_view = 95;
+static GLfloat near_clip = 1;
+static GLfloat far_clip = 400.0;
+static GLfloat field_of_view = 65;
 static bool show_2d = false;
 static bool rats_view = true;
+
+GLfloat camX = 7., camY = 15.5, camZ = 8., 
+		camLookX = 23., camLookY = -400., camLookZ = 8., 
+		camUpX = 0., camUpY = 1., camUpZ = 0.;
 
 GLfloat east_vertices[][3] = {
   {-0.05f, 0, 0}, { 0.05f, 0, 0},
@@ -426,6 +430,25 @@ void keyHandler(unsigned char k, int x, int y)
     valid_move = walker->walk(maze_walker::right);
     break;
 
+  case 'y': camX+=1; break;
+  case 'Y': camX-=1; break;
+  case 'u': camY+=1; break;
+  case 'U': camY-=1; break;
+  case 'i': camZ+=1; break;
+  case 'I': camZ-=1; break;
+  case 'h': camLookX+=1; break;
+  case 'H': camLookX-=1; break;
+  case 'j': camLookY+=1; break;
+  case 'J': camLookY-=1; break;
+  case 'k': camLookZ+=1; break;
+  case 'K': camLookZ-=1; break;
+  case 'b': camUpX+=1; break;
+  case 'B': camUpX-=1; break;
+  case 'n': camUpY+=1; break;
+  case 'N': camUpY-=1; break;
+  case 'm': camUpZ+=1; break;
+  case 'M': camUpZ-=1; break;
+
   default:
     valid_move = false;
   }
@@ -493,9 +516,16 @@ void set_viewpoint()
     look_at[2] = walker->position().row();
   }
 
-  gluLookAt(viewer[0],viewer[1],viewer[2], // viewer location
-            look_at[0],look_at[1],look_at[2],
-            0.0, 1.0, 0.0);                // up vector
+  gluLookAt(camX,camY,camZ, // viewer location
+            camLookX,camLookY,camLookZ,
+            camUpX, camUpY, camUpZ);                // up vector
+//  gluLookAt(viewer[0],viewer[1],viewer[2], // viewer location
+//            look_at[0],look_at[1],look_at[2],
+//            0.0, 1.0, 0.0);                // up vector
+
+  printf ("cam     X Y Z - %.1f %.1f %.1f\n",camX,camY,camZ);
+  printf ("camLook X Y Z - %.1f %.1f %.1f\n",camLookX,camLookY,camLookZ);
+  printf ("camUp   X Y Z - %.1f %.1f %.1f\n\n\n",camUpX,camUpY,camUpZ); 
 
 }
 
