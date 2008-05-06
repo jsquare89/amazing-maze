@@ -1,6 +1,6 @@
 #include "Precompiled.hpp"
 #include "3DMenu.hpp"
-
+#include <boost/bind.hpp>
 #include "Egl/ImageButton.hpp"
 
 namespace AmazingMaze
@@ -217,6 +217,29 @@ namespace AmazingMaze
                 // Refresh the window that holds this menu
                 this->RefreshWindow();
             }
+        }
+    }
+
+    void 
+    C3DMenu::SelectItem(const int nItemId)
+    {
+        // Look for the item that should be selected
+        std::vector<MenuItemPtr_t>::const_iterator citItem =
+            std::find_if(m_vItems.begin(), m_vItems.end(),
+            boost::bind(std::equal_to<int>(), boost::bind(&C3DMenuItem::GetId, _1), nItemId));
+
+        // Found?
+        if (citItem != m_vItems.end())
+        {
+            // Deselect current item
+            if (m_citCurrentItem != m_vItems.end())
+            {
+                (*m_citCurrentItem)->ResetState();    
+            }            
+
+            // Select item we found
+            m_citCurrentItem = citItem;
+            (*m_citCurrentItem)->Select();
         }
     }
 

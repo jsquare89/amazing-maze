@@ -127,6 +127,9 @@ namespace AmazingMaze
         /** Select the previous item in the menu. */
         void SelectPrevItem();
 
+        /** Select a given item. */
+        void SelectItem(const int nItemId);
+
         /** Retrieves the ID of the selected item. Note that at least one item must be preset. */
         int GetSelectedItemId() const;
 

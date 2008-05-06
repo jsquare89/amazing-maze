@@ -2,6 +2,7 @@
 
 #include "Egl/Common.hpp"
 #include "Egl/Event.hpp"
+#include <boost/weak_ptr.hpp>
 
 namespace Egl
 {
@@ -23,7 +24,12 @@ namespace Egl
         
         /** Destructor. */
         virtual ~CScene(void) throw() = 0;
-        
+
+        /**
+         * Retrieves whether this scene is active. 
+         */
+        bool IsActive() const { return m_bActive; }
+
     public:
 
         /** 
@@ -35,23 +41,29 @@ namespace Egl
          * Event fired when the scene unloads.
          */
         UnloadEvent_t Unload;
-
+        
     protected:
 
         /** Constructor. */
-        explicit CScene(const WindowPtr_t & pWindow);
+        CScene(const WindowPtr_t & pWindow, const SceneManagerPtr_t & pSceneManager);
+
+        /** Gets the window showing this scene. */
+        const WindowPtr_t GetWindow() const { return m_pWindow.lock(); }
+
+        /** Gets the scene manager managing this scene. */
+        const SceneManagerPtr_t GetSceneManager() const { return m_pSceneManager.lock(); } 
+
+    private:
 
         /** 
          * Fire the load load event. 
          */
-        virtual void OnLoad();
+        void OnLoad();
 
         /** 
          * Fire the unload event. 
          */
-        virtual void OnUnload();
-
-    private:
+        void OnUnload();
 
         // Avoid copy ctor and op=
         CScene(const CScene&);
@@ -60,7 +72,18 @@ namespace Egl
     private:
 
         /** Window where this scene is displayed. */
-        WindowPtr_t m_pWindow;
+        boost::weak_ptr<CWindow> m_pWindow;
+
+        /** Scene manager. */
+        boost::weak_ptr<CSceneManager> m_pSceneManager;
+
+    private:
+
+        /** Scene manager is our friend so it can call load and unload. */
+        friend class CSceneManager;
+
+        /** Active. */
+        volatile bool m_bActive;
     };
 
 } // namespace Egl

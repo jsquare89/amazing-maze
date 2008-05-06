@@ -65,7 +65,7 @@ namespace Egl
                 citSink != m_vSinks.end(); ++citSink)
             {
                 if (*citSink == fSink)
-                    break;
+                    return *this;
             }
 
             // Add new listener
@@ -133,9 +133,13 @@ namespace Egl
 
             // TODO add a scoped lock
 
+            // We need to copy the current list of listeners because
+            // the list may change as a response to an event
+            std::vector<EventSink_t> vSinks = m_vSinks;
+
             // Notify sinks
-            for (Sinks_t::const_iterator citSink = m_vSinks.begin(); 
-                citSink != m_vSinks.end(); ++citSink)
+            for (Sinks_t::const_iterator citSink = vSinks.begin(); 
+                citSink != vSinks.end(); ++citSink)
             {
                 // Call sink
                 try
