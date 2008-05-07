@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CpwDLL", "CpwDLL.vcproj", "{897B6068-1DDB-4025-ACBD-CBC55F258906}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug CpwDLL|Win32 = Debug CpwDLL|Win32
+		Release CpwDLL|Win32 = Release CpwDLL|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{897B6068-1DDB-4025-ACBD-CBC55F258906}.Debug CpwDLL|Win32.ActiveCfg = Debug CpwDLL|Win32
+		{897B6068-1DDB-4025-ACBD-CBC55F258906}.Debug CpwDLL|Win32.Build.0 = Debug CpwDLL|Win32
+		{897B6068-1DDB-4025-ACBD-CBC55F258906}.Release CpwDLL|Win32.ActiveCfg = Release CpwDLL|Win32
+		{897B6068-1DDB-4025-ACBD-CBC55F258906}.Release CpwDLL|Win32.Build.0 = Release CpwDLL|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
