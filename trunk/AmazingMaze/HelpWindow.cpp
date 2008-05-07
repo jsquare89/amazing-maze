@@ -57,11 +57,18 @@ namespace AmazingMaze
         Egl::FontPtr_t pFont = this->GetContext()->LoadFont("ARIAL.TTF", 18);
 
         this->DrawString(" Welcome to the Amazing Maze ", *pFont, Egl::C3DPoint<float>(0.25f, 0.90f, 0));
-        this->DrawString(" To move around the maze use:.", *pFont, Egl::C3DPoint<float>(0.05f, 0.85f, 0));
-        this->DrawString("- The left arrow key to move left.", *pFont, Egl::C3DPoint<float>(0.05f, 0.80f, 0));
-        this->DrawString("- The right arrow key to move right.", *pFont, Egl::C3DPoint<float>(0.05f, 0.75f, 0));        
-        this->DrawString("- The up arrow key to move up.", *pFont, Egl::C3DPoint<float>(0.05f, 0.70f, 0));
-        this->DrawString("- The down arrow key to move down.", *pFont, Egl::C3DPoint<float>(0.05f, 0.65f, 0));
+
+        this->DrawString("Use the arrow keys to move around the main menu", *pFont, Egl::C3DPoint<float>(0.05f, 0.85f, 0));
+        this->DrawString("and the credits menu. Press Enter to select.", *pFont, Egl::C3DPoint<float>(0.05f, 0.80f, 0));
+        this->DrawString("Use i to show this help and i again to hide it.", *pFont, Egl::C3DPoint<float>(0.05f, 0.75f, 0));        
+        this->DrawString("Select Start in the main menu for a demo of", *pFont, Egl::C3DPoint<float>(0.05f, 0.70f, 0));
+        this->DrawString("the game. User movement in the maze has been disabled.", *pFont, Egl::C3DPoint<float>(0.05f, 0.65f, 0));
+
+        // this->DrawString(" To move around the maze use:.", *pFont, Egl::C3DPoint<float>(0.05f, 0.85f, 0));
+        // this->DrawString("- The left arrow key to move left.", *pFont, Egl::C3DPoint<float>(0.05f, 0.80f, 0));
+        // this->DrawString("- The right arrow key to move right.", *pFont, Egl::C3DPoint<float>(0.05f, 0.75f, 0));        
+        // this->DrawString("- The up arrow key to move up.", *pFont, Egl::C3DPoint<float>(0.05f, 0.70f, 0));
+        // this->DrawString("- The down arrow key to move down.", *pFont, Egl::C3DPoint<float>(0.05f, 0.65f, 0));
         
         // Flush buffers
         glFlush();
