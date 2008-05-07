@@ -66,6 +66,16 @@ namespace AmazingMaze
                     case '-':
                         m_pBackgroundMusicLibrary->decreaseVolume();
                     break;
+
+                    // >, play next song
+                    case '>':
+						m_pBackgroundMusicLibrary->playNextSong();
+                    break;
+
+                    // <, play previous song
+                    case '<':
+                        m_pBackgroundMusicLibrary->playPrevSong();
+                    break;
                 }
             }            
         }

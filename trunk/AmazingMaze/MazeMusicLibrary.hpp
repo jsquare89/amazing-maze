@@ -22,6 +22,8 @@ namespace AmazingMaze
 			void playLibrary      ();
 			void stopCurrentSong  ();
 			void playCurrentSong  ();
+			void playNextSong     ();
+			void playPrevSong     ();
 			void increaseVolume   ();
 			void decreaseVolume   ();
 			void setLibraryVolume (float volume);
