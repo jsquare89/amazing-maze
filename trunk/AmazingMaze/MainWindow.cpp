@@ -52,13 +52,19 @@ namespace AmazingMaze
                 switch (std::use_facet<std::ctype<char> > (loc).
                     toupper(static_cast<char>(rArgs.GetCharCode())))
                 {
-                    // Exit key
-                    case 'Q':                        
-                    break;
-
                     // help key
                     case 'I': 
                         m_pHelpWindow->Show();
+                    break;
+
+                    // +, increase volume
+                    case '+':
+                        m_pBackgroundMusicLibrary->increaseVolume();
+                    break;
+
+                    // -, decrease volume
+                    case '-':
+                        m_pBackgroundMusicLibrary->decreaseVolume();
                     break;
                 }
             }            
@@ -90,6 +96,9 @@ namespace AmazingMaze
         m_pSceneManager->PushScene(Egl::ScenePtr_t(
             new CMainScene(this->shared_from_this(), m_pSceneManager, 
                 m_pCamera)));        
+
+        // We want to listen for key events
+        this->Key += boost::bind(&CMainWindow::HandleKey, this, _1, _2);
     }
 
     void

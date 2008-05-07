@@ -60,6 +60,9 @@ namespace AmazingMaze
         /** Handles Reshape event. */
         void HandleReshape(const Egl::CWindow &, Egl::CWindowReshapeEventArgs & rArgs);
 
+        /** Handles walker timer ticks. */
+        void HandleTimerTick(const Egl::CTimer &, Egl::CEventArgs &);
+
         /** Updates the projection matrix. */
         void UpdateProjectionMatrix(const int nWidth, const int nHeight);
 
@@ -94,5 +97,14 @@ namespace AmazingMaze
 
         /** Lights. */
         std::vector<Egl::LightPtr_t> m_vLights;
+
+        /** Walker timer. */
+        Egl::TimerPtr_t m_pWalkerTimer;
+
+        /** Array of movements for demo. */
+        std::vector<char> m_vWalkerSteps;
+
+        /** Iterator pointing to the current step. */
+        std::vector<char>::const_iterator m_citWalkerStep;
     };
 } // namespace Project2
