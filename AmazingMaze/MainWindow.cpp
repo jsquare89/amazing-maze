@@ -109,6 +109,13 @@ namespace AmazingMaze
             new CMainScene(this->shared_from_this(), m_pSceneManager, 
                 m_pCamera)));        
 
+        // Create help window and hide it
+        m_pHelpWindow = this->CreateEglWindow<CHelpWindow>(
+            Egl::SurfaceProperties::SURFACE_RGBA | 
+            Egl::SurfaceProperties::SURFACE_SINGLE,
+            10, 10, 600, 600);                        
+        m_pHelpWindow->Hide();
+
         // We want to listen for key events
         this->Key += boost::bind(&CMainWindow::HandleKey, this, _1, _2);
     }

@@ -513,19 +513,57 @@ namespace AmazingMaze
                     switch (rArgs.GetCharCode())
                     {
                         case 'X':
-                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX() + 1, 15.0f, 8.0f);
+                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX() + 1, 
+                                m_pCamera->GetPosition().GetY(), 
+                                m_pCamera->GetPosition().GetZ());
                         break;
 
                         case 'x':
-                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX() - 1, 15.0f, 8.0f);
+                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX() - 1, 
+                                m_pCamera->GetPosition().GetY(), 
+                                m_pCamera->GetPosition().GetZ());
+                        break;
+
+                        case 'Y':
+                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(), 
+                                m_pCamera->GetPosition().GetY() + 1, 
+                                m_pCamera->GetPosition().GetZ());
+                        break;
+
+                        case 'y':
+                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(), 
+                                m_pCamera->GetPosition().GetY() - 1, 
+                                m_pCamera->GetPosition().GetZ());
                         break;
 
                         case 'Z':
-                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(), 15.0f, m_pCamera->GetPosition().GetZ() + 1);
+                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(),
+                                m_pCamera->GetPosition().GetY(), 
+                                m_pCamera->GetPosition().GetZ() + 1);
                         break;
 
                         case 'z':
-                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(), 15.0f, m_pCamera->GetPosition().GetZ() - 1);
+                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(), 
+                                m_pCamera->GetPosition().GetY(), 
+                                m_pCamera->GetPosition().GetZ() - 1);
+                        break;
+
+                        // F key to increase the field of view up to 180
+                        case 'F':
+                            if (m_nFieldOfView < 180.0)
+                            {
+                                m_nFieldOfView += 5.0f;
+                                this->UpdateProjectionMatrix();
+                            }
+                        break;
+
+                        // f key to decrease the field of view down to 5
+                        case 'f':
+                            if (m_nFieldOfView > 5.0)
+                            {
+                                m_nFieldOfView -= 5.0f;
+                                this->UpdateProjectionMatrix();
+                            }
                         break;
                     }
 
@@ -548,40 +586,22 @@ namespace AmazingMaze
                             //m_pHelpWindow->Show();
                         break;
 
-                        // + key to increase the field of view up to 180
-                        case '+':
-                            if (m_nFieldOfView < 180.0)
-                            {
-                                m_nFieldOfView += 5.0f;
-                                this->UpdateProjectionMatrix();
-                            }
-                        break;
-
-                        // - key to decrease the field of view down to 5
-                        case '-':
-                            if (m_nFieldOfView > 5.0)
-                            {
-                                m_nFieldOfView -= 5.0f;
-                                this->UpdateProjectionMatrix();
-                            }
-                        break;
-
                         // Space to move forward
                         case ' ':
-                            if (m_pMazeWalker->walk(CMazeWalker::forward))
-                                this->Refresh();
+                            //if (m_pMazeWalker->walk(CMazeWalker::forward))
+                            //    this->Refresh();
                         break;
 
                         // L to move left
                         case 'L':
-                            if (m_pMazeWalker->walk(CMazeWalker::left))
-                                this->Refresh();
+                            //if (m_pMazeWalker->walk(CMazeWalker::left))
+                            //    this->Refresh();
                         break;
                       
                         // R to move right
                         case 'R':
-                            if (m_pMazeWalker->walk(CMazeWalker::right))
-                                this->Refresh();
+                            //if (m_pMazeWalker->walk(CMazeWalker::right))
+                            //    this->Refresh();
                         break;
                     }
                 }
@@ -591,20 +611,20 @@ namespace AmazingMaze
                     {
                         // Left arrow, move left
                         case 13:
-                            if (m_pMazeWalker->walk(CMazeWalker::left))
-                                this->Refresh();
+                            //if (m_pMazeWalker->walk(CMazeWalker::left))
+                            //    this->Refresh();
                         break;
 
                         // Up arrow, move forward
                         case 14:
-                            if (m_pMazeWalker->walk(CMazeWalker::forward))
-                                this->Refresh();
+                            //if (m_pMazeWalker->walk(CMazeWalker::forward))
+                            //    this->Refresh();
                         break;
 
                         // Right arrow, move right
                         case 15:
-                            if (m_pMazeWalker->walk(CMazeWalker::right))
-                                this->Refresh();
+                            //if (m_pMazeWalker->walk(CMazeWalker::right))
+                            //    this->Refresh();
                         break;
 
                         // Down arrow, move back
