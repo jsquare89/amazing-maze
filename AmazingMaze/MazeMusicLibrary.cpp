@@ -110,6 +110,22 @@ namespace AmazingMaze
 		m_play = true;
 	}
 
+	void CMazeMusicLibrary::playNextSong ()
+	{
+		stopCurrentSong();
+		if (++m_musicIter == m_musicLibrary.end())
+			m_musicIter = m_musicLibrary.begin();
+		playCurrentSong();
+	}
+
+	void CMazeMusicLibrary::playPrevSong ()
+	{
+		stopCurrentSong();
+		if (m_musicIter == m_musicLibrary.begin())
+			m_musicIter = m_musicLibrary.end()--;
+		playCurrentSong();
+	}
+
 	void CMazeMusicLibrary::setLibraryVolume (float volume)
 	{
 		m_volume = volume;
