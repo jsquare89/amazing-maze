@@ -34,8 +34,7 @@ namespace AmazingMaze
                 Egl::SurfaceProperties::SURFACE_DOUBLE | 
                 Egl::SurfaceProperties::SURFACE_DEPTH,
                 MAIN_WINDOW_TITLE, 
-                0, 0, 10, 10);
-        m_pMainWindow->SetFullScreen();
+                0, 0, 10, 10);        
         
         // Show the main window modally
         m_pContext->RunMainLoop();
