@@ -14,6 +14,7 @@
 #include "Egl/Window.hpp"
 #include "Egl/SceneManager.hpp"
 #include "Maze.h"
+#include "MazeMusic.hpp"
 
 namespace AmazingMaze
 {
@@ -108,11 +109,7 @@ namespace AmazingMaze
         }
 
         /** Draws the north wall of a given maze row. */
-        class draw_north_wall : public std::binary_function<const bool, pair_int *, int>
-        {
-        public:
-          result_type operator()(first_argument_type present,
-                                 second_argument_type loc) const
+        int draw_north_wall(const bool present, pair_int * loc)
           {
             if (present)
             {
@@ -127,14 +124,9 @@ namespace AmazingMaze
 
             return(0);
           }
-        };
 
         /** Draws the east wall of a given maze row. */
-        class draw_east_wall : public std::binary_function<const bool , pair_int *, int>
-        {
-        public:
-          result_type operator()(first_argument_type present,
-                                 second_argument_type loc) const
+        int draw_east_wall(const bool present, pair_int * loc)
           {
             if (present)
             {
@@ -149,37 +141,29 @@ namespace AmazingMaze
             loc->first++;
 
             return(0);
-          }
-        };
+          }        
 
         /** Draws a single row of the maze in terms of its north and east walls. */
-        class draw_row : public std::binary_function<const maze_row *, int *, int>
+        int draw_row(const maze_row * row, int * r)
         {
-        public:
-            /** Draws a single row of the maze. */
-            result_type operator()(first_argument_type row,
-                                   second_argument_type r) const
+        
+            pair_int p1(0,*r);
+            for (maze_row::walls::const_iterator cit = row->north_walls.begin();
+                 cit != row->north_walls.end(); ++cit)
             {
-                draw_north_wall d1;
-                pair_int p1(0,*r);
-                for (maze_row::walls::const_iterator cit = row->north_walls.begin();
-                     cit != row->north_walls.end(); ++cit)
-                {
-                    d1(*cit, &p1);
-                }
-
-                draw_east_wall d2;
-                pair_int p2(0,*r);
-                for (maze_row::walls::const_iterator cit = row->east_walls.begin();
-                     cit != row->east_walls.end(); ++cit)
-                {
-                    d2(*cit, &p2);
-                }
-                (*r)++;
-
-                return (0);
+                draw_north_wall(*cit, &p1);
             }
-        };
+
+            pair_int p2(0,*r);
+            for (maze_row::walls::const_iterator cit = row->east_walls.begin();
+                 cit != row->east_walls.end(); ++cit)
+            {
+                draw_east_wall(*cit, &p2);
+            }
+            (*r)++;
+
+            return (0);
+        }
 
         void rat_init()
         {
@@ -224,7 +208,7 @@ namespace AmazingMaze
             glEndList();
         }
 
-        void draw_floor(int nMazeWidth, int nMazeHeight)
+        void draw_floor(int nMazeWidth, int nMazeHeight, const Egl::TexturePtr_t & pTexture)
         {
             // red floor
             glPushAttrib( GL_ALL_ATTRIB_BITS );
@@ -234,12 +218,24 @@ namespace AmazingMaze
             glTranslatef(0.0, 0.0, -0.5);
             glScalef(nMazeWidth + 1, 1, nMazeHeight + 1);
 
+            pTexture->Bind();
+
             glBegin(GL_QUADS);
-            glVertex3f(0.0, 0.0f, 0.0);
-            glVertex3f(1.0, 0.0f, 0.0);
-            glVertex3f(1.0, 0.0f, 1.0);
-            glVertex3f(0.0, 0.0f, 1.0);
+                glTexCoord2f(0, 1);
+                glVertex3f(0.0, 0.0f, 0.0);
+
+                glTexCoord2f(0, 0);
+                glVertex3f(1.0, 0.0f, 0.0);
+
+                glTexCoord2f(1, 0);
+                glVertex3f(1.0, 0.0f, 1.0);
+
+                glTexCoord2f(1, 1);
+                glVertex3f(0.0, 0.0f, 1.0);
             glEnd();
+
+            pTexture->UnBind();
+
             glPopMatrix();
             glPopAttrib();
         }
@@ -288,7 +284,8 @@ namespace AmazingMaze
                            const Egl::CameraPtr_t & pCamera) : 
                            Egl::CScene(pWindow, pSceneManager),
                            m_pCamera(pCamera),
-                           m_pBackgroundImage(),
+                           m_pBackgroundTexture(pWindow->GetContext()->LoadTexture("textures/floor-cracks.bmp")),
+                           m_pWallsTexture(pWindow->GetContext()->LoadTexture("textures/wall-cracks.bmp")),
                            m_pContextMenu(),
                            m_pMaze(new CMaze(15, 20)),
                            m_pMazeWalker(new CMazeWalker(*m_pMaze)),
@@ -296,7 +293,8 @@ namespace AmazingMaze
                            m_vLights(),
                            m_pWalkerTimer(pWindow->GetContext()->CreateTimer()),
                            m_vWalkerSteps(),
-                           m_citWalkerStep()
+                           m_citWalkerStep(),
+                           m_pMazeMusic(new CMazeMusic("sounds\\FX\\Cheers.mp3"))
     {
         // We want to listen to load an unload events fired by us
         this->Load += boost::bind(&CDemoScene::HandleLoad, this, _1, _2);
@@ -476,11 +474,19 @@ namespace AmazingMaze
 
         glTranslatef(-1,0,0);
         glScalef(.8, .8, .8);
-        glColor3f(0.5, 0.5, 0.5);
+        glColor3f(0.0, 0.0, 0.0);
         int r = 0;
-        std::for_each(m_pMaze->begin(), m_pMaze->end(), std::bind2nd(detail::draw_row(), &r));
+
+        m_pWallsTexture->Bind();
+        for (CMaze::row_iterator cit = m_pMaze->begin();
+             cit != m_pMaze->end(); ++cit)
+        {
+            detail::draw_row(*cit, &r);
+        }
+        m_pWallsTexture->UnBind();
+
         detail::draw_rat(m_pMazeWalker->position(), m_pMazeWalker->facing());
-        detail::draw_floor(m_pMaze->width(), m_pMaze->height());
+        detail::draw_floor(m_pMaze->width(), m_pMaze->height(), m_pBackgroundTexture);
 
         glPopMatrix();
 
@@ -504,6 +510,25 @@ namespace AmazingMaze
                 // Regular key?
                 if (!rArgs.IsSystemKey())
                 {
+                    switch (rArgs.GetCharCode())
+                    {
+                        case 'X':
+                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX() + 1, 15.0f, 8.0f);
+                        break;
+
+                        case 'x':
+                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX() - 1, 15.0f, 8.0f);
+                        break;
+
+                        case 'Z':
+                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(), 15.0f, m_pCamera->GetPosition().GetZ() + 1);
+                        break;
+
+                        case 'z':
+                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(), 15.0f, m_pCamera->GetPosition().GetZ() - 1);
+                        break;
+                    }
+
                     // Current locale
                     std::locale loc("");
 
@@ -605,38 +630,38 @@ namespace AmazingMaze
         this->UpdateViewport(pWindow->GetWidth(), pWindow->GetHeight());
         
         // Enable texture
-        glDisable(GL_TEXTURE_2D);
-        //glEnable(GL_TEXTURE_2D);
-        //glShadeModel(GL_SMOOTH);							// Enable Smooth Shading
-	    //glClearColor(0.8f, 0.8f, 0.8f, 1.0f);				// Sky blue Background
-	    //glClearDepth(1.0f);									// Depth Buffer Setup
+        //glDisable(GL_TEXTURE_2D);
+        glEnable(GL_TEXTURE_2D);
+        glShadeModel(GL_SMOOTH);							// Enable Smooth Shading
+	    glClearColor(0.8f, 0.8f, 0.8f, 1.0f);				// Sky blue Background
+	    glClearDepth(1.0f);									// Depth Buffer Setup
 	    
         glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
 	    glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
 
         // Setup lights
-        //Egl::LightPtr_t pLight = Egl::CLightingControl::CreateLight<Egl::DIRECTIONAL_LIGHT>();
-        //pLight->MoveTo(1.0f, 1.0f, 1.0f);
-        //pLight->SetDifuseColor(1.0f, 0, 0, 0);
-        //pLight->SetAmbientColor(0.5f, 0.5f, 0.5f, 1.0f);
-        //pLight->Enable();
-        //m_vLights.push_back(pLight);
+        Egl::LightPtr_t pLight = Egl::CLightingControl::CreateLight<Egl::DIRECTIONAL_LIGHT>();
+        pLight->MoveTo(1.0f, 1.0f, 1.0f);
+        pLight->SetDifuseColor(1.0f, 0, 0, 0);
+        pLight->SetAmbientColor(0.5f, 0.5f, 0.5f, 1.0f);
+        pLight->Enable();
+        m_vLights.push_back(pLight);
         
-        //pLight = Egl::CLightingControl::CreateLight<Egl::DIRECTIONAL_LIGHT>();
-        //pLight->MoveTo(-1.0f, -1.0f, 1.0f);
-        //pLight->SetDifuseColor(0, 1.0f, 0, 0);
-        //pLight->Enable();
-        //m_vLights.push_back(pLight);
+        pLight = Egl::CLightingControl::CreateLight<Egl::DIRECTIONAL_LIGHT>();
+        pLight->MoveTo(-1.0f, -1.0f, 1.0f);
+        pLight->SetDifuseColor(0, 1.0f, 0, 0);
+        pLight->Enable();
+        m_vLights.push_back(pLight);
 
-        //pLight = Egl::CLightingControl::CreateLight<Egl::DIRECTIONAL_LIGHT>();
-        //pLight->MoveTo(1.0f, -1.0f, 1.0f);
-        //pLight->SetDifuseColor(0, 0, 1.0f, 0);
-        //pLight->Enable();
-        //m_vLights.push_back(pLight);
+        pLight = Egl::CLightingControl::CreateLight<Egl::DIRECTIONAL_LIGHT>();
+        pLight->MoveTo(1.0f, -1.0f, 1.0f);
+        pLight->SetDifuseColor(0, 0, 1.0f, 0);
+        pLight->Enable();
+        m_vLights.push_back(pLight);
 
-        //Egl::CLightingControl::EnableLighting();        
-        Egl::CLightingControl::DisableLighting();
+        Egl::CLightingControl::EnableLighting();        
+        //Egl::CLightingControl::DisableLighting();
 
         // Set the camera
         // Camera eye is at (0,0,30)
@@ -654,9 +679,9 @@ namespace AmazingMaze
         glClearColor(0.0, 0.0, 0.0, 0.0);        
 
         //Enable alpha-blending
-        glDisable(GL_ALPHA_TEST);
-        //glEnable(GL_ALPHA_TEST); 
-        //glAlphaFunc(GL_GREATER, 0.6f);        
+        //glDisable(GL_ALPHA_TEST);
+        glEnable(GL_ALPHA_TEST); 
+        glAlphaFunc(GL_GREATER, 0.6f);        
 
         // We want to handle window events now
         pWindow->Reshape += boost::bind(&CDemoScene::HandleReshape, this, _1, _2);
@@ -669,7 +694,7 @@ namespace AmazingMaze
 
         // Start demo
         m_citWalkerStep = m_vWalkerSteps.begin();
-        m_pWalkerTimer->StartInterval(100);
+        m_pWalkerTimer->StartInterval(300);
     }
 
     void
@@ -679,6 +704,9 @@ namespace AmazingMaze
         if (m_citWalkerStep == m_vWalkerSteps.end())
         {
             m_pWalkerTimer->Stop();
+
+            // Play winning music
+            m_pMazeMusic->getSoundObject()->play();
         }
         else
         {

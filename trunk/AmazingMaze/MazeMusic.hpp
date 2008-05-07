@@ -29,7 +29,7 @@ namespace AmazingMaze
 
 			SoundPtr	m_pSoundObject;	     // sound object to play
 			float		m_soundVolume;	    // volume of the sound
-			const char* m_pSoundFileName;  // location of sound file
+			char* m_pSoundFileName;  // location of sound file
 			bool		m_streamType;	  // stream it or not
 			bool		m_soundLoaded;   // did it load?
     };

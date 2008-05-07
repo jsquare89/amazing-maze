@@ -59,8 +59,11 @@ namespace AmazingMaze
         /** Title. */
         Egl::ImagePtr_t m_pTitleImage; 
 
-        /** Model for credits menu (3D menu). */
-        boost::shared_ptr<C3DMenu> m_p3DMenu;
+        /** Model for credits menu (3D menu with names). */
+        boost::shared_ptr<C3DMenu> m_p3DNamesMenu;
+
+        /** Model for credits menu (3D menu with emails). */
+        boost::shared_ptr<C3DMenu> m_p3DEmailsMenu;
 
         /** Context menu. */
         Egl::MenuPtr_t m_pContextMenu; 

@@ -20,7 +20,7 @@ namespace AmazingMaze
 	CMazeMusic::CMazeMusic (const char* fileName)
 	{
 		m_pSoundFileName	= new char[BUFSIZE];
-		m_pSoundFileName	= fileName;
+		strcpy(m_pSoundFileName, fileName);
 		m_soundVolume		= 1;
 		m_streamType		= true;
 		m_soundLoaded		= false;
@@ -32,7 +32,7 @@ namespace AmazingMaze
 	CMazeMusic::CMazeMusic (const char* fileName, float volume)
 	{
 		m_pSoundFileName	= new char[BUFSIZE];
-		m_pSoundFileName	= fileName;
+		strcpy(m_pSoundFileName, fileName);
 		m_soundVolume		= volume;
 		m_streamType		= true;
 		m_soundLoaded		= false;
@@ -44,7 +44,7 @@ namespace AmazingMaze
 	CMazeMusic::CMazeMusic (const char* fileName, float volume, bool stream)
 	{
 		m_pSoundFileName	= new char[BUFSIZE];
-		m_pSoundFileName	= fileName;
+		strcpy(m_pSoundFileName, fileName);
 		m_soundVolume		= volume;
 		m_streamType		= stream;
 		m_soundLoaded		= false;
