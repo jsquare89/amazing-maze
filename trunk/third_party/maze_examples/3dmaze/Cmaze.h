@@ -4,7 +4,6 @@
 #include <vector>
 #include <stack>
 
-
 struct maze_row;
 
 struct node : public pair_int {

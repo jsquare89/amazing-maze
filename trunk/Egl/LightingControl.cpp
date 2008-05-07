@@ -27,6 +27,13 @@ namespace Egl
         glEnable(GL_LIGHTING);
     }
 
+    //static 
+    void 
+    CLightingControl::DisableLighting()
+    {
+        glDisable(GL_LIGHTING);
+    }
+
     // static
     void
     CLightingControl::SetLighModel(const LightModel_e eLightModel, const float nParam)

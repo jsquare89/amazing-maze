@@ -1,7 +1,7 @@
 #include "mazedefs.h"
 #include <memory>
 #include <new>
-#include <GL/glut.h>
+//#include <GL/glut.h>
 #include "CMaze.h"
 
 CMaze::CMaze(uint32 h, uint32 w) :
