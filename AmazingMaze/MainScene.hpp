@@ -60,8 +60,11 @@ namespace AmazingMaze
         /** Called when an item is selected on the context menu. */
         void HandleContextMenuItemSelected(const Egl::CWindow &, Egl::CMenuItemEventArgs & rArgs);
 
-        /** Show credits window. */
+        /** Show credits scene. */
         void ShowCreditScene();
+
+        /** Show demo scene. */
+        void ShowDemoScene();
 
     private:
 

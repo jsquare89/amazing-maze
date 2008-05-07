@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <new>
 #include <GL/gl.h>
-#include <GL/glut.h>
+#include <glut/glut.h>
 #include <functional>
 #include <algorithm>
 #include <limits>

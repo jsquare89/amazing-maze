@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DemoScene.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HelpWindow.cpp"
 				>
 			</File>
@@ -198,6 +202,10 @@
 			</File>
 			<File
 				RelativePath=".\MainWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Maze.cpp"
 				>
 			</File>
 			<File
@@ -251,6 +259,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DemoScene.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HelpWindow.hpp"
 				>
 			</File>
@@ -260,6 +272,10 @@
 			</File>
 			<File
 				RelativePath=".\MainWindow.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Maze.h"
 				>
 			</File>
 			<File

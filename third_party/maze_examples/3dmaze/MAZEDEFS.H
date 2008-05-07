@@ -8,11 +8,8 @@
 typedef unsigned int uint32;
 typedef std::pair<int, int> pair_int;
 
-
 // describe a single row in terms of its north walls and its east walls.
 // a wall N is present if the bit[N] is SET.
-
-
 struct maze_row {
   typedef std::vector<bool> walls;
   typedef walls::iterator iterator;
@@ -24,6 +21,7 @@ struct maze_row {
   ~maze_row() {};
 
 private:
+
   // hidden to prevent accidental construction
   maze_row();   // no implementation
 };

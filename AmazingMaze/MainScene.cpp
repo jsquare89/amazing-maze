@@ -11,6 +11,7 @@
 #include "Egl/Menu.hpp"
 #include "Egl/Window.hpp"
 #include "CreditScene.hpp"
+#include "DemoScene.hpp"
 #include "Egl/SceneManager.hpp"
 
 namespace AmazingMaze
@@ -160,6 +161,12 @@ namespace AmazingMaze
                             // Get currently selected menu item id
                             switch (m_p3DMenu->GetSelectedItemId())
                             {
+                                // Demo
+                                case CMainScene::MENU_ITEM_ID_START:
+                                    // Show credits
+                                    this->ShowDemoScene();
+                                break;
+
                                 // Credits
                                 case CMainScene::MENU_ITEM_ID_CREDITS:
                                     // Show credits
@@ -213,19 +220,25 @@ namespace AmazingMaze
             switch (rArgs.GetItemId())
             {
                 // Toggle help
-                case MENU_ITEM_ID_HELP:
+                case CMainScene::MENU_ITEM_ID_HELP:
                     //m_pHelpWindow->Show();
                 break;
 
                 // Quit menu item.
-                case MENU_ITEM_ID_QUIT:
+                case CMainScene::MENU_ITEM_ID_QUIT:
                     this->GetWindow()->Close();
                 break;
 
                 // Credits
-                case MENU_ITEM_ID_CREDITS:
+                case CMainScene::MENU_ITEM_ID_CREDITS:
                     // Show credit window
                     this->ShowCreditScene();
+                break;
+
+                // Start
+                case CMainScene::MENU_ITEM_ID_START:
+                    // Show credit window
+                    this->ShowDemoScene();
                 break;
             }
         }
@@ -239,6 +252,19 @@ namespace AmazingMaze
         Egl::WindowPtr_t pWindow = this->GetWindow();
         pSceneManager->PushScene(Egl::ScenePtr_t(
             new CCreditScene(pWindow, pSceneManager, this->GetCamera())));
+
+        // Refresh the window so the right scene is shown
+        pWindow->Refresh();
+    }
+
+    void 
+    CMainScene::ShowDemoScene()
+    {
+        // Push the credits scene onto the stack
+        Egl::SceneManagerPtr_t pSceneManager = this->GetSceneManager();
+        Egl::WindowPtr_t pWindow = this->GetWindow();
+        pSceneManager->PushScene(Egl::ScenePtr_t(
+            new CDemoScene(pWindow, pSceneManager, this->GetCamera())));
 
         // Refresh the window so the right scene is shown
         pWindow->Refresh();

@@ -26,6 +26,11 @@ namespace Egl
          * Enable lighting.
          */
         static void EnableLighting();
+
+        /**
+         * Disable lighting.
+         */
+        static void DisableLighting();
         
         /**
          * Sets the lighting model.
