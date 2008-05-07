@@ -18,12 +18,7 @@
 namespace AmazingMaze
 {
     namespace detail
-    {
-        const uint32 cu32wWidth     = 640;
-        const uint32 cu32wHeight    = 480;
-        const uint32 cu32wLeft      = 0;
-        const uint32 cu32wTop       = 0;
-
+    {        
         const uint32 cu32RatID_2d    = 1;
         const uint32 cu32RatID_3d    = 2;
         const uint32 cu32NorthWallID = 3;
@@ -291,18 +286,22 @@ namespace AmazingMaze
     CDemoScene::CDemoScene(const Egl::WindowPtr_t & pWindow, 
                            const Egl::SceneManagerPtr_t & pSceneManager, 
                            const Egl::CameraPtr_t & pCamera) : 
-                           CScene(pWindow, pSceneManager),
+                           Egl::CScene(pWindow, pSceneManager),
                            m_pCamera(pCamera),
                            m_pBackgroundImage(),
                            m_pContextMenu(),
                            m_pMaze(new CMaze(15, 20)),
                            m_pMazeWalker(new CMazeWalker(*m_pMaze)),
                            m_nFieldOfView(65),
-                           m_vLights()
+                           m_vLights(),
+                           m_pWalkerTimer(pWindow->GetContext()->CreateTimer()),
+                           m_vWalkerSteps(),
+                           m_citWalkerStep()
     {
         // We want to listen to load an unload events fired by us
         this->Load += boost::bind(&CDemoScene::HandleLoad, this, _1, _2);
         this->Unload += boost::bind(&CDemoScene::HandleUnload, this, _1, _2);        
+        m_pWalkerTimer->Tick += boost::bind(&CDemoScene::HandleTimerTick, this, _1, _2);
 
         // Initialize rat
         detail::rat_init();
@@ -314,6 +313,153 @@ namespace AmazingMaze
         m_pContextMenu = pWindow->GetContext()->CreateMenu();
         m_pContextMenu->AddItem("Show help window", CDemoScene::MENU_ITEM_ID_HELP, false);        
         m_pContextMenu->AddItem("Back to main screen", CDemoScene::MENU_ITEM_ID_QUIT, false);                
+
+        // TODO, reorganize this so it is not soooo long. maybe not even hardcoded
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+    
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');        
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');               
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
+
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('r');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('u');
+        m_vWalkerSteps.push_back('l');
     }
 
     CDemoScene::~CDemoScene(void)
@@ -329,6 +475,7 @@ namespace AmazingMaze
         glPushMatrix();
 
         glTranslatef(-1,0,0);
+        glScalef(.8, .8, .8);
         glColor3f(0.5, 0.5, 0.5);
         int r = 0;
         std::for_each(m_pMaze->begin(), m_pMaze->end(), std::bind2nd(detail::draw_row(), &r));
@@ -448,6 +595,8 @@ namespace AmazingMaze
     void
     CDemoScene::HandleLoad(const Egl::CScene &, Egl::CEventArgs &)
     {   
+        std::srand(3412548653);
+
         // Get our window
         Egl::WindowPtr_t pWindow = this->GetWindow();
 
@@ -517,6 +666,45 @@ namespace AmazingMaze
 
         // We want to make sure the right contex menu shows up for this scene
         pWindow->SetContextMenu(m_pContextMenu, Egl::MouseButton::RIGHT);
+
+        // Start demo
+        m_citWalkerStep = m_vWalkerSteps.begin();
+        m_pWalkerTimer->StartInterval(100);
+    }
+
+    void
+    CDemoScene::HandleTimerTick(const Egl::CTimer &, Egl::CEventArgs &)
+    {
+        // End?
+        if (m_citWalkerStep == m_vWalkerSteps.end())
+        {
+            m_pWalkerTimer->Stop();
+        }
+        else
+        {
+            switch (*m_citWalkerStep)
+            {
+                // l, move left
+                case 'l':
+                    if (m_pMazeWalker->walk(CMazeWalker::left))
+                        this->Refresh();
+                break;
+
+                // u, move forward
+                case 'u':
+                    if (m_pMazeWalker->walk(CMazeWalker::forward))
+                        this->Refresh();
+                break;
+
+                // r, move right
+                case 'r':
+                    if (m_pMazeWalker->walk(CMazeWalker::right))
+                        this->Refresh();
+                break;
+            }
+
+            ++m_citWalkerStep;
+        }
     }
 
     void
