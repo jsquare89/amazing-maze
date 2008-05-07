@@ -47,16 +47,28 @@ namespace AmazingMaze
         m_p3DMenu->AddItem(-1,
             10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/delfin.png"));
 
-        m_p3DMenu->AddItem(-1, 
+        m_p3DMenu->AddItem(-1,
+            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/emaildel.png"));
+
+		m_p3DMenu->AddItem(-1, 
             10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/anthony.png"));
 
         m_p3DMenu->AddItem(-1,
+            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/emailant.png"));
+
+		m_p3DMenu->AddItem(-1,
             10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/george.png"));
 
         m_p3DMenu->AddItem(-1,
+            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/emailgeo.png"));
+
+		m_p3DMenu->AddItem(-1,
             10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/carlos.png"));
 
-        // Add quit item which cam be selected
+        m_p3DMenu->AddItem(-1,
+            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/emailcar.png"));
+
+		// Add quit item which cam be selected
         m_p3DMenu->AddItem(CCreditScene::MENU_ITEM_ID_QUIT,
             6.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/quit0.png"))
             .SetStateImage(C3DMenuItem::SelectedState, 
