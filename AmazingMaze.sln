@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Egl", "Egl\Egl.vcproj", "{1946BF52-A75C-479A-A2FD-E1F5BB06B7D3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AmazingMaze", "AmazingMaze\AmazingMaze.vcproj", "{07BBC2E6-68E5-465E-849E-968EF4C74958}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1946BF52-A75C-479A-A2FD-E1F5BB06B7D3} = {1946BF52-A75C-479A-A2FD-E1F5BB06B7D3}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1946BF52-A75C-479A-A2FD-E1F5BB06B7D3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1946BF52-A75C-479A-A2FD-E1F5BB06B7D3}.Debug|Win32.Build.0 = Debug|Win32
+		{1946BF52-A75C-479A-A2FD-E1F5BB06B7D3}.Release|Win32.ActiveCfg = Release|Win32
+		{1946BF52-A75C-479A-A2FD-E1F5BB06B7D3}.Release|Win32.Build.0 = Release|Win32
+		{07BBC2E6-68E5-465E-849E-968EF4C74958}.Debug|Win32.ActiveCfg = Debug|Win32
+		{07BBC2E6-68E5-465E-849E-968EF4C74958}.Debug|Win32.Build.0 = Debug|Win32
+		{07BBC2E6-68E5-465E-849E-968EF4C74958}.Release|Win32.ActiveCfg = Release|Win32
+		{07BBC2E6-68E5-465E-849E-968EF4C74958}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
