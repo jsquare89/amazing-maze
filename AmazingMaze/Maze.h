@@ -53,8 +53,6 @@ namespace AmazingMaze
 
       std::vector<maze_row *> maze;
 
-      typedef std::vector<maze_row *>::iterator           row_iterator;
-      typedef std::vector<maze_row *>::reverse_iterator   row_reverse_iterator;
       typedef std::stack<node>                            node_stack;
 
       void generate_maze();
@@ -63,6 +61,10 @@ namespace AmazingMaze
       bool is_valid_node(node& n) const;
 
     public:
+        typedef std::vector<maze_row *>::iterator           row_iterator;
+      typedef std::vector<maze_row *>::reverse_iterator   row_reverse_iterator;
+      
+
       uint32 height() const { return _height; };
       uint32 width()  const { return _width; };
       const node& entry_node() const { return _entry_node; };

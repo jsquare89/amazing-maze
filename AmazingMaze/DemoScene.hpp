@@ -12,6 +12,9 @@ namespace AmazingMaze
     /** Forward declaration of CMazeWalker. */
     class CMazeWalker;
 
+    /** Forward declaration of CMazeMusic */
+    class CMazeMusic;
+
     /** Main scene. */
     class CDemoScene : public Egl::CScene
     {
@@ -81,7 +84,10 @@ namespace AmazingMaze
         Egl::CameraPtr_t m_pCamera;
 
         /** Background. */
-        Egl::ImagePtr_t m_pBackgroundImage; 
+        Egl::TexturePtr_t m_pBackgroundTexture; 
+
+        /** Walls texture. */
+        Egl::TexturePtr_t m_pWallsTexture;
 
         /** Context menu. */
         Egl::MenuPtr_t m_pContextMenu; 
@@ -106,5 +112,7 @@ namespace AmazingMaze
 
         /** Iterator pointing to the current step. */
         std::vector<char>::const_iterator m_citWalkerStep;
+
+        boost::shared_ptr<CMazeMusic> m_pMazeMusic;
     };
 } // namespace Project2

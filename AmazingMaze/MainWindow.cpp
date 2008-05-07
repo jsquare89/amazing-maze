@@ -34,6 +34,8 @@ namespace AmazingMaze
 
     CMainWindow::~CMainWindow(void)
     {
+        m_pBackgroundMusicTimer->Stop();
+        m_pBackgroundMusicLibrary->stopCurrentSong();        
     }
     
     void 

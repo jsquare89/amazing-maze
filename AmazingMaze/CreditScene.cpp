@@ -20,7 +20,8 @@ namespace AmazingMaze
                            CTextScene(pWindow, pSceneManager, pCamera),
                            m_pBackgroundImage(),
                            m_pTitleImage(),
-                           m_p3DMenu(new C3DMenu()),                           
+                           m_p3DNamesMenu(new C3DMenu()),
+                           m_p3DEmailsMenu(new C3DMenu()),
                            m_pContextMenu()
     {
         // We want to listen to load an unload events fired by us
@@ -44,32 +45,32 @@ namespace AmazingMaze
         // Set up credits menu
         // We use item id -1 for the items we don't
         // care about (cannot be selected)
-        m_p3DMenu->AddItem(-1,
+        m_p3DNamesMenu->AddItem(-1,
             10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/delfin.png"));
 
-//        m_p3DMenu->AddItem(-1,
-//            8.0f, 1.0f, pWindow->GetContext()->LoadTexture("textures/emaildel.png"));
+        m_p3DEmailsMenu->AddItem(-1,
+            8.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/emaildel.png"));
 
-		m_p3DMenu->AddItem(-1, 
+		m_p3DNamesMenu->AddItem(-1, 
             10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/anthony.png"));
 
-//        m_p3DMenu->AddItem(-1,
-//            8.0f, 1.0f, pWindow->GetContext()->LoadTexture("textures/emailant.png"));
+        m_p3DEmailsMenu->AddItem(-1,
+            8.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/emailant.png"));
 
-		m_p3DMenu->AddItem(-1,
+		m_p3DNamesMenu->AddItem(-1,
             10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/george.png"));
 
-//        m_p3DMenu->AddItem(-1,
-//            8.0f, 1.0f, pWindow->GetContext()->LoadTexture("textures/emailgeo.png"));
+        m_p3DEmailsMenu->AddItem(-1,
+            8.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/emailgeo.png"));
 
-		m_p3DMenu->AddItem(-1,
+		m_p3DNamesMenu->AddItem(-1,
             10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/carlos.png"));
 
-//        m_p3DMenu->AddItem(-1,
-//            8.0f, 1.0f, pWindow->GetContext()->LoadTexture("textures/emailcar.png"));
+        m_p3DEmailsMenu->AddItem(-1,
+            8.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/emailcar.png"));
 
 		// Add quit item which can be selected
-        m_p3DMenu->AddItem(CCreditScene::MENU_ITEM_ID_QUIT,
+        m_p3DNamesMenu->AddItem(CCreditScene::MENU_ITEM_ID_QUIT,
             6.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/quit0.png"))
             .SetStateImage(C3DMenuItem::SelectedState, 
                 pWindow->GetContext()->LoadTexture("textures/quit1.png"))
@@ -77,11 +78,13 @@ namespace AmazingMaze
 
     
         // Select Quit/back
-        m_p3DMenu->SelectItem(CCreditScene::MENU_ITEM_ID_QUIT);
+        m_p3DNamesMenu->SelectItem(CCreditScene::MENU_ITEM_ID_QUIT);
 
         // Move the whole menu into position
-        m_p3DMenu->MoveTo(-4.0f, 1.5f, 0);
-        m_p3DMenu->SetWindow(pWindow);
+        m_p3DNamesMenu->MoveTo(-8.0f, 1.5f, 0);
+        m_p3DNamesMenu->SetWindow(pWindow);
+        m_p3DEmailsMenu->MoveTo(4.0f, 1.5f, 0);
+        m_p3DEmailsMenu->SetWindow(pWindow);
 
         // Create context menu
         m_pContextMenu = pWindow->GetContext()->CreateMenu();
@@ -106,8 +109,9 @@ namespace AmazingMaze
         // Draw title
         m_pTitleImage->Draw();
         
-        // Draw menu
-        m_p3DMenu->Draw();            
+        // Draw menus
+        m_p3DNamesMenu->Draw();            
+        m_p3DEmailsMenu->Draw();
 
         // Flush all actions
         glFlush();
@@ -157,7 +161,7 @@ namespace AmazingMaze
                         case 30:
                         {
                             // Get currently selected menu item id
-                            switch (m_p3DMenu->GetSelectedItemId())
+                            switch (m_p3DNamesMenu->GetSelectedItemId())
                             {
                                 // Quit/Back
                                 case CCreditScene::MENU_ITEM_ID_QUIT:
