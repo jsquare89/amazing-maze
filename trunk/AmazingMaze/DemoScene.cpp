@@ -68,18 +68,18 @@ namespace AmazingMaze
         /** Draws a polygon via list of vertices */
         void polygon(GLfloat v[][3], int a, int b, int c , int d)
         {          
-            glBegin(GL_POLYGON);
-                glColor3fv(colors[a]);
+            glBegin(GL_POLYGON);                
                 glNormal3fv(normals[a]);
+                glTexCoord2f(0, 1);
                 glVertex3fv(v[a]);
-                glColor3fv(colors[b]);
                 glNormal3fv(normals[b]);
+                glTexCoord2f(0, 0);
                 glVertex3fv(v[b]);
-                glColor3fv(colors[c]);
                 glNormal3fv(normals[c]);
+                glTexCoord2f(1, 0);
                 glVertex3fv(v[c]);
-                glColor3fv(colors[d]);
                 glNormal3fv(normals[d]);
+                glTexCoord2f(1, 1);
                 glVertex3fv(v[d]);
             glEnd();
         }
