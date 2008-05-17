@@ -16,6 +16,8 @@
 #include "Maze.h"
 #include "MazeMusic.hpp"
 
+#include <GL/glut.h>
+
 namespace AmazingMaze
 {
     namespace detail
@@ -64,6 +66,16 @@ namespace AmazingMaze
           {1.0,1.0,0.0}, {0.0,1.0,0.0}, {0.0,0.0,1.0}, 
           {1.0,0.0,1.0}, {1.0,1.0,1.0}, {0.0,1.0,1.0}
         };
+
+		const float RADIUS = 0.4f; //The radius of the sphere	
+		GLfloat lightColor[] = {0.6f, 0.6f, 0.6f, 1.0f};
+		GLfloat lightPos[] = {.5f * RADIUS, 100.5f * RADIUS, 1.5 * RADIUS, 1.0f};
+		GLfloat ambientLight[] = {0.2f, 0.2f, 0.2f, 1.0f};
+		GLfloat materialColor[] = {0.5f, 0.5f, 0.6f, 1.0f};
+		//The specular (shiny) component of the material
+		GLfloat materialSpecular[] = {.7, .7, .7, 1.0f};
+		//The color emitted by the material
+		GLfloat materialEmission[] = {0, 0, 0, 1.0f};
 
         /** Draws a polygon via list of vertices */
         void polygon(GLfloat v[][3], int a, int b, int c , int d)
@@ -190,18 +202,19 @@ namespace AmazingMaze
             glNewList( cu32RatID_3d, GL_COMPILE );
 
             glPushAttrib( GL_ALL_ATTRIB_BITS );
-            glColor3f( 1.0, 1.0, 0.5 );
 
-            glBegin( GL_POLYGON );
-            {
-                glVertex3d( 0.4375, 0.5,   0.0);
-                glVertex3d( 0.25, 0.5, -0.25 );
-                glVertex3d( -0.3, 0.5, -0.25 );
-                glVertex3d( -0.375, 0.5,   0 );
-                glVertex3d( -0.3, 0.5,  0.25 );
-                glVertex3d( 0.25, 0.5,  0.25 );
-            }
-            glEnd();
+			//Diffuse (non-shiny) light component
+			glLightfv(GL_LIGHT3, GL_DIFFUSE, lightColor);
+			//Specular (shiny) light component
+			glLightfv(GL_LIGHT3, GL_SPECULAR, lightColor);
+			glLightfv(GL_LIGHT3, GL_POSITION, lightPos);
+			glEnable(GL_LIGHT3);
+
+			glMaterialfv(GL_FRONT, GL_SPECULAR, materialSpecular);
+			glMaterialfv(GL_FRONT, GL_EMISSION, materialEmission);
+			glMaterialf(GL_FRONT, GL_SHININESS, 25); //The shininess parameter
+
+			glutSolidSphere(RADIUS, 3, 20);
 
             glPopAttrib();
 
@@ -212,11 +225,11 @@ namespace AmazingMaze
         {
             // red floor
             glPushAttrib( GL_ALL_ATTRIB_BITS );
-            glColor3f(.5,0,0);
+            glColor3f(0,0,0);
             glPushMatrix();
 
-            glTranslatef(0.0, 0.0, -0.5);
-            glScalef(nMazeWidth + 1, 1, nMazeHeight + 1);
+            glTranslatef(1.4, 0.0, -0.5);
+            glScalef(nMazeWidth-.8, 1, nMazeHeight-1);
 
             pTexture->Bind();
 
