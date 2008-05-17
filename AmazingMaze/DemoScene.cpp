@@ -15,7 +15,7 @@
 #include "Egl/SceneManager.hpp"
 #include "Maze.h"
 #include "MazeMusic.hpp"
-
+ 
 #include <GL/glut.h>
 
 namespace AmazingMaze
