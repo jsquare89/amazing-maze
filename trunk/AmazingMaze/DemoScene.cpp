@@ -15,7 +15,7 @@
 #include "Egl/SceneManager.hpp"
 #include "Maze.h"
 #include "MazeMusic.hpp"
- 
+
 #include <GL/glut.h>
 
 namespace AmazingMaze
@@ -323,7 +323,7 @@ namespace AmazingMaze
                            Egl::CScene(pWindow, pSceneManager),
                            m_pCamera(pCamera),
                            m_pBackgroundTexture(pWindow->GetContext()->LoadTexture("textures/floor-cracks.bmp")),
-                           m_pWallsTexture(pWindow->GetContext()->LoadTexture("textures/wall-rough.bmp")),
+                           m_pWallsTexture(pWindow->GetContext()->LoadTexture("textures/wall-cracks.bmp")),
                            m_pContextMenu(),
                            m_pMaze(new CMaze(15, 20)),
                            m_pMazeWalker(new CMazeWalker(*m_pMaze)),
