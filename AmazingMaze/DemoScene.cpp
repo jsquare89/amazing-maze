@@ -221,6 +221,7 @@ namespace AmazingMaze
             glEndList();
         }
 
+		//draws tiled floor (may have to modify if not using odd length '15' by even width '20' size maze)
         void draw_floor(int nMazeWidth, int nMazeHeight, const Egl::TexturePtr_t & pTexture)
         {
             // red floor
@@ -232,7 +233,7 @@ namespace AmazingMaze
 
             pTexture->Bind();
 
-			//Binds textures down the z-axis
+			//Double loop binds textures down the x-axis, then z-axis
 			for(int i = 0; i < (nMazeHeight/2)-1; i++){
 				//Binds textures down the x-axis
 				for(int j = 0; j < nMazeWidth/2; j++){
@@ -254,7 +255,7 @@ namespace AmazingMaze
 				}
 				glTranslatef(1.0 - nMazeWidth, 0.0, 2.0);
 			}
-			//Last row of maze is only the left half of the floor texture
+			//Last row of maze is only binding the left half of the floor texture
 			for(int i = 0; i < nMazeWidth/2; i++){
 		        glBegin(GL_QUADS);
 			        glTexCoord2f(0, 1);
