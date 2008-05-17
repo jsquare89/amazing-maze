@@ -228,26 +228,51 @@ namespace AmazingMaze
             glColor3f(0,0,0);
             glPushMatrix();
 
-            glTranslatef(1.4, 0.0, -0.5);
-            glScalef(nMazeWidth-.8, 1, nMazeHeight-1);
+            glTranslatef(1.45, 0.0, -0.5);
 
             pTexture->Bind();
 
-            glBegin(GL_QUADS);
-                glTexCoord2f(0, 1);
-                glVertex3f(0.0, 0.0f, 0.0);
+			//Binds textures down the z-axis
+			for(int i = 0; i < (nMazeHeight/2)-1; i++){
+				//Binds textures down the x-axis
+				for(int j = 0; j < nMazeWidth/2; j++){
+            
+		        glBegin(GL_QUADS);
+			        glTexCoord2f(0, 1);
+				    glVertex3f(0.0, 0.0f, 0.0);
 
-                glTexCoord2f(0, 0);
-                glVertex3f(1.0, 0.0f, 0.0);
+					glTexCoord2f(0, 0);
+	                glVertex3f(2.0, 0.0f, 0.0);
 
-                glTexCoord2f(1, 0);
-                glVertex3f(1.0, 0.0f, 1.0);
+		            glTexCoord2f(1, 0);
+			        glVertex3f(2.0, 0.0f, 2.0);
 
-                glTexCoord2f(1, 1);
-                glVertex3f(0.0, 0.0f, 1.0);
-            glEnd();
+				    glTexCoord2f(1, 1);
+					glVertex3f(0.0, 0.0f, 2.0);
+	            glEnd();
+				glTranslatef(2.0, 0.0, 0.0);
+				}
+				glTranslatef(1.0 - nMazeWidth, 0.0, 2.0);
+			}
+			//Last row of maze is only the left half of the floor texture
+			for(int i = 0; i < nMazeWidth/2; i++){
+		        glBegin(GL_QUADS);
+			        glTexCoord2f(0, 1);
+				    glVertex3f(0.0, 0.0f, 0.0);
 
-            pTexture->UnBind();
+					glTexCoord2f(0, 0);
+	                glVertex3f(2.0, 0.0f, 0.0);
+
+		            glTexCoord2f(0.5, 0);
+			        glVertex3f(2.0, 0.0f, 1.0);
+
+				    glTexCoord2f(0.5, 1);
+					glVertex3f(0.0, 0.0f, 1.0);
+	            glEnd();
+				glTranslatef(2.0, 0.0, 0.0);
+			}
+           
+			pTexture->UnBind();
 
             glPopMatrix();
             glPopAttrib();
@@ -298,7 +323,7 @@ namespace AmazingMaze
                            Egl::CScene(pWindow, pSceneManager),
                            m_pCamera(pCamera),
                            m_pBackgroundTexture(pWindow->GetContext()->LoadTexture("textures/floor-cracks.bmp")),
-                           m_pWallsTexture(pWindow->GetContext()->LoadTexture("textures/wall-cracks.bmp")),
+                           m_pWallsTexture(pWindow->GetContext()->LoadTexture("textures/wall-rough.bmp")),
                            m_pContextMenu(),
                            m_pMaze(new CMaze(15, 20)),
                            m_pMazeWalker(new CMazeWalker(*m_pMaze)),
@@ -499,8 +524,8 @@ namespace AmazingMaze
         m_pWallsTexture->UnBind();
 
         detail::draw_rat(m_pMazeWalker->position(), m_pMazeWalker->facing());
-        detail::draw_floor(m_pMaze->width(), m_pMaze->height(), m_pBackgroundTexture);
-
+		detail::draw_floor(m_pMaze->width()/*edit*//*edit*/, m_pMaze->height()/*edit*//*edit*/, m_pBackgroundTexture);
+		
         glPopMatrix();
 
         // Flush all actions
