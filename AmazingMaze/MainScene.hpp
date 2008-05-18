@@ -9,6 +9,12 @@ namespace AmazingMaze
     /** Forward declaration of C3DMenu. */
     class C3DMenu;
 
+    /** Forward declaration of CMazeServer. */
+    class CMazeServer;
+
+    /** Type of CMazeServer shared pointer. */
+    typedef boost::shared_ptr<CMazeServer> MazeServerPtr_t;
+
     /** Main scene. */
     class CMainScene : public CTextScene
     {
@@ -79,5 +85,8 @@ namespace AmazingMaze
 
         /** Context menu. */
         Egl::MenuPtr_t m_pContextMenu;        
+
+        /** Maze server. */
+        MazeServerPtr_t m_pMazeServer;
     };
 } // namespace Project2

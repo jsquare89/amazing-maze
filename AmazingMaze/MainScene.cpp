@@ -13,6 +13,7 @@
 #include "CreditScene.hpp"
 #include "DemoScene.hpp"
 #include "Egl/SceneManager.hpp"
+#include "MazeServer.hpp"
 
 namespace AmazingMaze
 {
@@ -23,7 +24,8 @@ namespace AmazingMaze
                            m_pBackgroundImage(),
                            m_pTitleImage(),
                            m_p3DMenu(new C3DMenu()),                           
-                           m_pContextMenu()
+                           m_pContextMenu(),
+                           m_pMazeServer(new CMazeServer())
     {
         // We want to listen to load an unload events fired by us
         this->Load += boost::bind(&CMainScene::HandleLoad, this, _1, _2);
@@ -264,7 +266,8 @@ namespace AmazingMaze
         Egl::SceneManagerPtr_t pSceneManager = this->GetSceneManager();
         Egl::WindowPtr_t pWindow = this->GetWindow();
         pSceneManager->PushScene(Egl::ScenePtr_t(
-            new CDemoScene(pWindow, pSceneManager, this->GetCamera())));
+            new CDemoScene(pWindow, pSceneManager, this->GetCamera(), 
+            m_pMazeServer, m_pMazeServer->CreateMaze(16, 21, CMaze::MazeEndStyle::LEFTRIGHT))));
 
         // Refresh the window so the right scene is shown
         pWindow->Refresh();
