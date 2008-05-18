@@ -185,6 +185,14 @@ namespace AmazingMaze
                                 // Update player position
                                 this->UpdateWalker(CMazeWalker::Direction::NORTH,
                                     m_pMaze->GetPlayerRowIndex(), m_pMaze->GetPlayerColumn());
+
+                                // Check if game is won
+                                if ((m_pMaze->GetEndRowIndex() == m_pMaze->GetPlayerRowIndex()) &&
+                                    (m_pMaze->GetEndColumn() == m_pMaze->GetPlayerColumn()))
+                                {
+                                    // We have won
+                                    this->OnWin();
+                                }
                             }
                         break;
 
@@ -195,7 +203,15 @@ namespace AmazingMaze
                                 // Update player position
                                 this->UpdateWalker(CMazeWalker::Direction::WEST,
                                     m_pMaze->GetPlayerRowIndex(), m_pMaze->GetPlayerColumn());
-                            }    this->Refresh();
+
+                                // Check if game is won
+                                if ((m_pMaze->GetEndRowIndex() == m_pMaze->GetPlayerRowIndex()) &&
+                                    (m_pMaze->GetEndColumn() == m_pMaze->GetPlayerColumn()))
+                                {
+                                    // We have won
+                                    this->OnWin();
+                                }
+                            }
                         break;
 
                         // Right 
@@ -205,6 +221,14 @@ namespace AmazingMaze
                                 // Update player position
                                 this->UpdateWalker(CMazeWalker::Direction::SOUTH,
                                     m_pMaze->GetPlayerRowIndex(), m_pMaze->GetPlayerColumn());
+
+                                // Check if game is won
+                                if ((m_pMaze->GetEndRowIndex() == m_pMaze->GetPlayerRowIndex()) &&
+                                    (m_pMaze->GetEndColumn() == m_pMaze->GetPlayerColumn()))
+                                {
+                                    // We have won
+                                    this->OnWin();
+                                }
                             }
                         break;
 
@@ -215,6 +239,14 @@ namespace AmazingMaze
                                 // Update player position
                                 this->UpdateWalker(CMazeWalker::Direction::EAST,
                                     m_pMaze->GetPlayerRowIndex(), m_pMaze->GetPlayerColumn());
+
+                                // Check if game is won
+                                if ((m_pMaze->GetEndRowIndex() == m_pMaze->GetPlayerRowIndex()) &&
+                                    (m_pMaze->GetEndColumn() == m_pMaze->GetPlayerColumn()))
+                                {
+                                    // We have won
+                                    this->OnWin();
+                                }
                             }
                         break;
                     }
@@ -301,39 +333,15 @@ namespace AmazingMaze
     void
     CDemoScene::HandleTimerTick(const Egl::CTimer &, Egl::CEventArgs &)
     {
-        // End?
-        if (m_citWalkerStep == m_vWalkerSteps.end())
-        {
-            m_pWalkerTimer->Stop();
+        
+    }
 
-            // Play winning music
-            m_pCheersMusic->getSoundObject()->play();
-        }
-        else
-        {
-            switch (*m_citWalkerStep)
-            {
-                // l, move left
-                case 'l':
-                    //if (m_pMazeWalker->walk(CMazeWalker::left))
-                    //    this->Refresh();
-                break;
-
-                // u, move forward
-                case 'u':
-                    //if (m_pMazeWalker->walk(CMazeWalker::forward))
-                    //    this->Refresh();
-                break;
-
-                // r, move right
-                case 'r':
-                    //if (m_pMazeWalker->walk(CMazeWalker::right))
-                    //    this->Refresh();
-                break;
-            }
-
-            ++m_citWalkerStep;
-        }
+    void
+    CDemoScene::OnWin()
+    {
+        // Play winning music
+        m_pCheersMusic->getSoundObject()->reset();
+        m_pCheersMusic->getSoundObject()->play();
     }
 
     void

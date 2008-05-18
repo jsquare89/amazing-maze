@@ -663,7 +663,8 @@ int main(int argc, char *argv[])
 {
   int       m, n;
 
-  srand(time(0));
+  //srand(time(0));
+  srand(3412548653);
 
   glutInitWindowSize(cu32wWidth, cu32wHeight);
   glutInitWindowPosition(0, 0);

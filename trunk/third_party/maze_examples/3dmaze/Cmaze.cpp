@@ -3,6 +3,7 @@
 #include <new>
 //#include <GL/glut.h>
 #include "CMaze.h"
+#include <iostream>
 
 CMaze::CMaze(uint32 h, uint32 w) :
     _width(w + 1), _height(h + 1), maze(_height)
@@ -28,7 +29,50 @@ CMaze::CMaze(uint32 h, uint32 w) :
     *(*iter)->north_walls.begin() = false;
   }
 
-  generate_maze();
+  // Print
+  std::cout << std::endl;
+  for (row_iterator iter = maze.begin(); iter < maze.end(); iter++)
+  {
+      for (int i = 0; i < _width; ++i)
+      {
+          if ((*iter)->north_walls[i])
+              std::cout << "N";
+          else
+              std::cout << " ";
+
+          if ((*iter)->east_walls[i])
+              std::cout << "E";
+          else
+              std::cout << " ";
+
+          std::cout << " ";
+      }
+      std::cout << std::endl;
+  }
+  std::cout << std::endl;
+  
+  generate_maze();  
+  
+  std::cout << std::endl;
+  for (row_iterator iter = maze.begin(); iter < maze.end(); iter++)
+  {
+      for (int i = 0; i < _width; ++i)
+      {
+          if ((*iter)->north_walls[i])
+              std::cout << "N";
+          else
+              std::cout << " ";
+
+          if ((*iter)->east_walls[i])
+              std::cout << "E";
+          else
+              std::cout << " ";
+
+          std::cout << " ";
+      }
+      std::cout << std::endl;
+  }
+  std::cout << std::endl;
 }
   
 CMaze::~CMaze()

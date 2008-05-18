@@ -93,6 +93,8 @@ namespace AmazingMaze
         /** Updates all the walker parameters given its new position and direction. */
         void UpdateWalker(const CMazeWalker::Direction_e eDirection, const int nRow, const int nColumn);
 
+        /** Handles winning situations. */
+        void OnWin();
     private:
 
         /** Camera. */
