@@ -181,6 +181,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\3DMazeModel.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\3DMenu.cpp"
 				>
 			</File>
@@ -209,6 +213,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MazeEastWallTile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MazeMain.cpp"
 				>
 			</File>
@@ -218,6 +226,14 @@
 			</File>
 			<File
 				RelativePath=".\MazeMusicLibrary.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MazeNorthWallTile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MazeServer.cpp"
 				>
 			</File>
 			<File
@@ -241,6 +257,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\SphereMazeWalker.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TextScene.cpp"
 				>
 			</File>
@@ -250,6 +270,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\3DMazeModel.hpp"
+				>
+			</File>
 			<File
 				RelativePath=".\3DMenu.hpp"
 				>
@@ -275,7 +299,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Maze.h"
+				RelativePath=".\Maze.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MazeEastWallTile.hpp"
 				>
 			</File>
 			<File
@@ -291,11 +319,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MazeNorthWallTile.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MazeRow.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MazeServer.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MazeWalker.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Precompiled.hpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SphereMazeWalker.hpp"
 				>
 			</File>
 			<File

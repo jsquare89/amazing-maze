@@ -15,8 +15,8 @@ namespace AmazingMaze
     {
         // Seed the random-number generator with the current time so that
         // the numbers will be different every time we run.
-        //std::srand(static_cast<unsigned int>(std::time(0)));
-        std::srand(3412548653);
+        std::srand(static_cast<unsigned int>(std::time(0)));
+        //std::srand(3412548653);
     }
 
     CApp::~CApp(void)
