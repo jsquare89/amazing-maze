@@ -30,8 +30,8 @@ namespace AmazingMaze
             /** Help. */
             MENU_ITEM_ID_HELP,
 
-            /** Quit. */
-            MENU_ITEM_ID_QUIT
+            /** Back. */
+            MENU_ITEM_ID_BACK
         };
 
     private:
