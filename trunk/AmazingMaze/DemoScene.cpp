@@ -19,6 +19,7 @@
 #include "3DMazeModel.hpp"
 #include "MazeWalker.hpp"
 #include "SphereMazeWalker.hpp"
+#include <sstream>
 
 namespace AmazingMaze
 {
@@ -52,7 +53,7 @@ namespace AmazingMaze
         // Set the 3D maze model textures
         m_pMazeModel->SetFloorTexture(pWindow->GetContext()->LoadTexture("textures/floor-cracks.bmp"));
         m_pMazeModel->SetWallTexture(pWindow->GetContext()->LoadTexture("textures/wall-cracks.bmp"));
-        m_pMazeModel->SetWindow(this->GetWindow());
+        //m_pMazeModel->SetWindow(this->GetWindow());
 
         // Update player position        
         this->UpdateWalker(CMazeWalker::Direction::NORTH, 
@@ -299,16 +300,22 @@ namespace AmazingMaze
     CDemoScene::HandleTimerTick(const Egl::CTimer &, Egl::CEventArgs &)
     {
         if (m_pMazeModel->GetPosition().GetY() > 0)
-            m_pMazeModel->MoveBy(0, -.28f, 0);
+            m_pMazeModel->MoveBy(0, -.56f, 0);
 
         if (m_pMazeModel->GetPosition().GetX() > -1)
-            m_pMazeModel->MoveBy(0, -.02f, 0);
+            m_pMazeModel->MoveBy(-.04f, 0, 0);
 
         if (m_pMazeModel->GetZRotation() < 0)
-            m_pMazeModel->RotateBy(0, 0, .8);
+            m_pMazeModel->RotateBy(0, 0, 1.6f);
 
-        if (m_pMazeModel->GetPosition().GetY() <= 0)
+        this->Refresh();
+
+        if (m_pMazeModel->GetZRotation() >= 0)
         {
+            this->UpdateWalker(
+                m_pMazeWalker->GetDirection(), 
+                m_pMaze->GetPlayerRowIndex(), 
+                m_pMaze->GetPlayerColumn());
             m_pWalkerTimer->Stop();
         }
     }
@@ -413,7 +420,15 @@ namespace AmazingMaze
     {
         // Set new walker position and direction
         m_pMazeWalker->SetDirection(eDirection);
-        m_pMazeWalker->MoveTo(static_cast<float>(nColumn) + 1.0f, 0.5f, static_cast<float>(nRow));
+        Egl::C3DPoint<float> pMazePosition = m_pMazeModel->GetPosition();
+        m_pMazeWalker->MoveTo(
+            pMazePosition.GetX() + static_cast<float>(nColumn) + 1.0f, 
+            pMazePosition.GetY() + 0.5f, 
+            pMazePosition.GetZ() + static_cast<float>(nRow));
+        m_pMazeWalker->RotateTo(
+            m_pMazeModel->GetXRotation(), 
+            m_pMazeModel->GetYRotation(), 
+            m_pMazeModel->GetZRotation());
         this->GetWindow()->Refresh();
     }
 
