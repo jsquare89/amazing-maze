@@ -55,7 +55,7 @@ namespace AmazingMaze
                     toupper(static_cast<char>(rArgs.GetCharCode())))
                 {
                     // help key
-                    case 'I': 
+                    case 'I':
                         m_pHelpWindow->Show();
                     break;
 
@@ -70,12 +70,14 @@ namespace AmazingMaze
                     break;
 
                     // >, play next song
-                    case '>':
+                    case 'n':
+					case 'N':
 						m_pBackgroundMusicLibrary->playNextSong();
                     break;
 
                     // <, play previous song
-                    case '<':
+                    case 'p':
+					case 'P':
                         m_pBackgroundMusicLibrary->playPrevSong();
                     break;
                 }

@@ -115,7 +115,7 @@ namespace AmazingMaze
                 toupper(static_cast<char>(rArgs.GetCharCode())))
             {
                 // help key
-                case 'I': 
+                case 'I':
                 {
                     // Hide this window
                     this->Hide();

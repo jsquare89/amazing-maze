@@ -145,7 +145,8 @@ namespace AmazingMaze
                         toupper(static_cast<char>(rArgs.GetCharCode())))
                     {
                         // Back key
-                        case 'B':
+                        case 'q':
+						case 'Q':
                             // Go back to the main screen
                             this->GetSceneManager()->PopScene();
 
@@ -153,6 +154,7 @@ namespace AmazingMaze
 
                         // Help key
                         case 'I': 
+						case 'i':
                             //m_pHelpWindow->Show();
                         break;
                     }
