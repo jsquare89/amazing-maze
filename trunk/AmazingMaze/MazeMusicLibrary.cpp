@@ -122,7 +122,8 @@ namespace AmazingMaze
 	{
 		stopCurrentSong();
 		if (m_musicIter == m_musicLibrary.begin())
-			m_musicIter = m_musicLibrary.end()--;
+			m_musicIter = m_musicLibrary.end();
+		--m_musicIter;
 		playCurrentSong();
 	}
 
