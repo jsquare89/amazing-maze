@@ -78,8 +78,8 @@ namespace AmazingMaze
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glPushMatrix();
 
-        //glTranslatef(-1,0,0);
-        glScalef(.8f, .8f, .8f);
+        glTranslatef(0,0,-1.5);
+        //glScalef(.8f, .8f, .8f);
         //glColor3f(0.0f, 0.0f, 0.0f);
 
         m_pMazeModel->Draw();
@@ -107,21 +107,6 @@ namespace AmazingMaze
                 // Regular key?
                 if (!rArgs.IsSystemKey())
                 {
-                    switch (rArgs.GetCharCode())
-                    {
-                        case 'y':
-                            m_pMazeModel->MoveBy(0, -1, 0);
-                        break;
-
-                        case 'x':
-                            m_pMazeModel->MoveBy(-1, 0, 0);
-                        break;
-
-                        case 'r':
-                            m_pMazeModel->RotateBy(0, 0, +1);
-                        break;                        
-                    }
-
                     // Current locale
                     std::locale loc("");
 

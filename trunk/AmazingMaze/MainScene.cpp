@@ -41,7 +41,7 @@ namespace AmazingMaze
         // Title image
         // Position is <-6.5, 4.2, 0>
         // Width is 16, height is 3
-        m_pTitleImage.reset(new Egl::CImage(-6.5f, 4.2f, 0,
+        m_pTitleImage.reset(new Egl::CImage(-7.2f, 4.2f, 0,
             16.0f, 3.0f, pWindow->GetContext()->LoadTexture("textures/title.png")));
         m_pTitleImage->SetWindow(pWindow);
 

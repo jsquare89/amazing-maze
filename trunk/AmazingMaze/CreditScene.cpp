@@ -38,7 +38,7 @@ namespace AmazingMaze
         // Title image
         // Position is <-6.5, 4.2, 0>
         // Width is 16, height is 3
-        m_pTitleImage.reset(new Egl::CImage(-6.5f, 4.2f, 0,
+        m_pTitleImage.reset(new Egl::CImage(-7.2f, 4.2f, 0,
             16.0f, 3.0f, pWindow->GetContext()->LoadTexture("textures/title.png")));
         m_pTitleImage->SetWindow(pWindow);
 
@@ -46,50 +46,54 @@ namespace AmazingMaze
         // We use item id -1 for the items we don't
         // care about (cannot be selected)
         m_p3DNamesMenu->AddItem(-1,
-            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/delfin.png"));
+            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/delfin.png")).
+            SetMargins(4.1f, 0);
 
         m_p3DEmailsMenu->AddItem(-1,
-            8.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/emaildel.png"));
+            8.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/emaildel.png"));
 
 		m_p3DNamesMenu->AddItem(-1, 
             10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/anthony.png"));
 
         m_p3DEmailsMenu->AddItem(-1,
-            8.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/emailant.png"));
+            8.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/emailant.png"));
 
 		m_p3DNamesMenu->AddItem(-1,
-            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/george.png"));
+            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/george.png")).
+            SetMargins(3.2f, 0);
 
         m_p3DEmailsMenu->AddItem(-1,
-            8.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/emailgeo.png"));
+            8.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/emailgeo.png"));
 
 		m_p3DNamesMenu->AddItem(-1,
-            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/carlos.png"));
+            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/carlos.png")).
+            SetMargins(2.5f, 0);
 
         m_p3DEmailsMenu->AddItem(-1,
-            8.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/emailcar.png"));
+            8.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/emailcar.png"));
+            
 
-		// Add quit item which can be selected
-        m_p3DNamesMenu->AddItem(CCreditScene::MENU_ITEM_ID_QUIT,
-            6.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/quit0.png"))
+		// Add back item which can be selected
+        m_p3DNamesMenu->AddItem(CCreditScene::MENU_ITEM_ID_BACK,
+            6.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/back0.png"))
             .SetStateImage(C3DMenuItem::SelectedState, 
-                pWindow->GetContext()->LoadTexture("textures/quit1.png"))
-            .SetMargins(12.0f, 3.4f);
+                pWindow->GetContext()->LoadTexture("textures/back1.png"))
+            .SetMargins(16.0f, 3.4f);
 
     
-        // Select Quit/back
-        m_p3DNamesMenu->SelectItem(CCreditScene::MENU_ITEM_ID_QUIT);
+        // Select back
+        m_p3DNamesMenu->SelectItem(CCreditScene::MENU_ITEM_ID_BACK);
 
         // Move the whole menu into position
-        m_p3DNamesMenu->MoveTo(-8.0f, 1.5f, 0);
+        m_p3DNamesMenu->MoveTo(-10.0f, 1.5f, 0);
         m_p3DNamesMenu->SetWindow(pWindow);
-        m_p3DEmailsMenu->MoveTo(4.0f, 1.5f, 0);
+        m_p3DEmailsMenu->MoveTo(1.0f, 1.5f, 0);
         m_p3DEmailsMenu->SetWindow(pWindow);
 
         // Create context menu
         m_pContextMenu = pWindow->GetContext()->CreateMenu();
         m_pContextMenu->AddItem("Show help window", CCreditScene::MENU_ITEM_ID_HELP, false);        
-        m_pContextMenu->AddItem("Back to main screen", CCreditScene::MENU_ITEM_ID_QUIT, false);                
+        m_pContextMenu->AddItem("Back to main screen", CCreditScene::MENU_ITEM_ID_BACK, false);                
     }
 
     CCreditScene::~CCreditScene(void)
@@ -140,8 +144,8 @@ namespace AmazingMaze
                     switch (std::use_facet<std::ctype<char> > (loc).
                         toupper(static_cast<char>(rArgs.GetCharCode())))
                     {
-                        // Exit key
-                        case 'Q':
+                        // Back key
+                        case 'B':
                             // Go back to the main screen
                             this->GetSceneManager()->PopScene();
 
@@ -163,8 +167,8 @@ namespace AmazingMaze
                             // Get currently selected menu item id
                             switch (m_p3DNamesMenu->GetSelectedItemId())
                             {
-                                // Quit/Back
-                                case CCreditScene::MENU_ITEM_ID_QUIT:
+                                // Back
+                                case CCreditScene::MENU_ITEM_ID_BACK:
                                     this->GetSceneManager()->PopScene();
                                 break;
                             }                        
@@ -214,8 +218,8 @@ namespace AmazingMaze
                     //m_pHelpWindow->Show();
                 break;
 
-                // Quit menu item.
-                case MENU_ITEM_ID_QUIT:
+                // Back menu item.
+                case MENU_ITEM_ID_BACK:
                     this->GetSceneManager()->PopScene();
                 break;
             }
