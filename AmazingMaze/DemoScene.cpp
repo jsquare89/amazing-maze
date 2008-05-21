@@ -22,6 +22,9 @@
 
 namespace AmazingMaze
 {
+    //float nXTrans, nYTrans, nZTrans;
+    //float nXRot, nYRot, nZRot;
+
     CDemoScene::CDemoScene(const Egl::WindowPtr_t & pWindow, 
                            const Egl::SceneManagerPtr_t & pSceneManager, 
                            const Egl::CameraPtr_t & pCamera,
@@ -49,6 +52,7 @@ namespace AmazingMaze
         // Set the 3D maze model textures
         m_pMazeModel->SetFloorTexture(pWindow->GetContext()->LoadTexture("textures/floor-cracks.bmp"));
         m_pMazeModel->SetWallTexture(pWindow->GetContext()->LoadTexture("textures/wall-cracks.bmp"));
+        m_pMazeModel->SetWindow(this->GetWindow());
 
         // Update player position        
         this->UpdateWalker(CMazeWalker::Direction::NORTH, 
@@ -73,9 +77,9 @@ namespace AmazingMaze
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glPushMatrix();
 
-        glTranslatef(-1,0,0);
+        //glTranslatef(-1,0,0);
         glScalef(.8f, .8f, .8f);
-        glColor3f(0.0f, 0.0f, 0.0f);
+        //glColor3f(0.0f, 0.0f, 0.0f);
 
         m_pMazeModel->Draw();
         m_pMazeWalker->Draw();
@@ -104,59 +108,17 @@ namespace AmazingMaze
                 {
                     switch (rArgs.GetCharCode())
                     {
-                        case 'X':
-                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX() + 1, 
-                                m_pCamera->GetPosition().GetY(), 
-                                m_pCamera->GetPosition().GetZ());
+                        case 'y':
+                            m_pMazeModel->MoveBy(0, -1, 0);
                         break;
 
                         case 'x':
-                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX() - 1, 
-                                m_pCamera->GetPosition().GetY(), 
-                                m_pCamera->GetPosition().GetZ());
+                            m_pMazeModel->MoveBy(-1, 0, 0);
                         break;
 
-                        case 'Y':
-                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(), 
-                                m_pCamera->GetPosition().GetY() + 1, 
-                                m_pCamera->GetPosition().GetZ());
-                        break;
-
-                        case 'y':
-                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(), 
-                                m_pCamera->GetPosition().GetY() - 1, 
-                                m_pCamera->GetPosition().GetZ());
-                        break;
-
-                        case 'Z':
-                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(),
-                                m_pCamera->GetPosition().GetY(), 
-                                m_pCamera->GetPosition().GetZ() + 1);
-                        break;
-
-                        case 'z':
-                            m_pCamera->MoveTo(m_pCamera->GetPosition().GetX(), 
-                                m_pCamera->GetPosition().GetY(), 
-                                m_pCamera->GetPosition().GetZ() - 1);
-                        break;
-
-                        // F key to increase the field of view up to 180
-                        case 'F':
-                            if (m_nFieldOfView < 180.0)
-                            {
-                                m_nFieldOfView += 5.0f;
-                                this->UpdateProjectionMatrix();
-                            }
-                        break;
-
-                        // f key to decrease the field of view down to 5
-                        case 'f':
-                            if (m_nFieldOfView > 5.0)
-                            {
-                                m_nFieldOfView -= 5.0f;
-                                this->UpdateProjectionMatrix();
-                            }
-                        break;
+                        case 'r':
+                            m_pMazeModel->RotateBy(0, 0, +1);
+                        break;                        
                     }
 
                     // Current locale
@@ -316,6 +278,9 @@ namespace AmazingMaze
         glEnable(GL_ALPHA_TEST); 
         glAlphaFunc(GL_GREATER, 0.6f);        
 
+        m_pMazeModel->MoveTo(1, 28, 0);
+        m_pMazeModel->RotateTo(0, 0, -80);
+
         // We want to handle window events now
         pWindow->Reshape += boost::bind(&CDemoScene::HandleReshape, this, _1, _2);
         pWindow->ContextMenuItemSelected += boost::bind(&CDemoScene::HandleContextMenuItemSelected, this, _1, _2);
@@ -327,13 +292,25 @@ namespace AmazingMaze
 
         // Start demo
         m_citWalkerStep = m_vWalkerSteps.begin();
-        m_pWalkerTimer->StartInterval(300);
+        m_pWalkerTimer->StartInterval(100);
     }
 
     void
     CDemoScene::HandleTimerTick(const Egl::CTimer &, Egl::CEventArgs &)
     {
-        
+        if (m_pMazeModel->GetPosition().GetY() > 0)
+            m_pMazeModel->MoveBy(0, -.28f, 0);
+
+        if (m_pMazeModel->GetPosition().GetX() > -1)
+            m_pMazeModel->MoveBy(0, -.02f, 0);
+
+        if (m_pMazeModel->GetZRotation() < 0)
+            m_pMazeModel->RotateBy(0, 0, .8);
+
+        if (m_pMazeModel->GetPosition().GetY() <= 0)
+        {
+            m_pWalkerTimer->Stop();
+        }
     }
 
     void
@@ -383,7 +360,7 @@ namespace AmazingMaze
             m_nFieldOfView, // field of view in degrees
             static_cast<GLdouble>(pWindow->GetWidth()) / pWindow->GetHeight(), // aspect ratio
             .2, // Z near 
-            16.0 // Z far
+            1000 // Z far
         );
         pWindow->Refresh();
     }
@@ -397,7 +374,7 @@ namespace AmazingMaze
             m_nFieldOfView, // field of view in degrees
             static_cast<GLdouble>(nWidth) / nHeight, // aspect ratio
             .2, // Z near 
-            16.0 // Z far
+            1000 // Z far
         );
     }
 
