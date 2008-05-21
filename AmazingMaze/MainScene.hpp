@@ -43,10 +43,7 @@ namespace AmazingMaze
             MENU_ITEM_ID_INSTRUCTIONS,
 
             /** Credits. */
-            MENU_ITEM_ID_CREDITS,
-
-            /** Toggle help menu item. */
-            MENU_ITEM_ID_HELP,
+            MENU_ITEM_ID_CREDITS
         };
 
     private:
@@ -68,6 +65,9 @@ namespace AmazingMaze
 
         /** Show credits scene. */
         void ShowCreditScene();
+
+		/** Show credits scene. */
+        void ShowHelpScene();
 
         /** Show demo scene. */
         void ShowDemoScene();

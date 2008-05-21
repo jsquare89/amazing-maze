@@ -1,6 +1,6 @@
 #include "Precompiled.hpp"
 #include <boost/bind.hpp>
-#include "CreditScene.hpp"	
+#include "HelpScene.hpp"	
 #include <locale>
 #include "Egl/Context.hpp"
 #include "Egl/Texture.hpp"
@@ -41,19 +41,18 @@ namespace AmazingMaze
             16.0f, 3.0f, pWindow->GetContext()->LoadTexture("textures/title.png")));
         m_pTitleImage->SetWindow(pWindow);
 
-        // Set up credits menu
-        // We use item id -1 for the items we don't
-        // care about (cannot be selected)
-        m_p3DHelpMenu->AddItem(-1,
-            10.0f, 1.5f, pWindow->GetContext()->LoadTexture("textures/commands.png"));            
+		m_pHelpImage.reset(new Egl::CImage(-10.f, -2.1f, 0,
+            20.0f, 5.0f, pWindow->GetContext()->LoadTexture("textures/commands.png")));
+        m_pHelpImage->SetWindow(pWindow);
 
+        // Set up menu
+        
 		// Add back item which can be selected
         m_p3DHelpMenu->AddItem(CHelpScene::MENU_ITEM_ID_BACK,
             6.0f, 2.0f, pWindow->GetContext()->LoadTexture("textures/back0.png"))
             .SetStateImage(C3DMenuItem::SelectedState, 
                 pWindow->GetContext()->LoadTexture("textures/back1.png"))
-            .SetMargins(16.0f, 3.4f);
-
+            .SetMargins(16.0f, 6.4f);
     
         // Select back
         m_p3DHelpMenu->SelectItem(CHelpScene::MENU_ITEM_ID_BACK);
@@ -86,6 +85,7 @@ namespace AmazingMaze
         m_pTitleImage->Draw();
         
         // Draw menus
+		m_pHelpImage->Draw();
         m_p3DHelpMenu->Draw();
 
         // Flush all actions
