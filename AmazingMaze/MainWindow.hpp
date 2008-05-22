@@ -47,9 +47,6 @@ namespace AmazingMaze
         boost::shared_ptr<CMazeMusicLibrary>	m_pBackgroundMusicLibrary;
         Egl::TimerPtr_t  m_pBackgroundMusicTimer;
 
-        /** Help window */
-        Egl::WindowPtr_t m_pHelpWindow;
-
         /** Scene manager. */
         Egl::SceneManagerPtr_t m_pSceneManager;
 		

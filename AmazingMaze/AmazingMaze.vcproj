@@ -193,11 +193,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DemoScene.cpp"
+				RelativePath=".\GameStartScene.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\HelpWindow.cpp"
+				RelativePath=".\HelpScene.cpp"
 				>
 			</File>
 			<File
@@ -261,6 +261,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\StandardGameScene.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TextScene.cpp"
 				>
 			</File>
@@ -283,11 +287,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DemoScene.hpp"
+				RelativePath=".\GameStartScene.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\HelpWindow.hpp"
+				RelativePath=".\HelpScene.hpp"
 				>
 			</File>
 			<File
@@ -344,6 +348,10 @@
 			</File>
 			<File
 				RelativePath=".\SphereMazeWalker.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\StandardGameScene.hpp"
 				>
 			</File>
 			<File

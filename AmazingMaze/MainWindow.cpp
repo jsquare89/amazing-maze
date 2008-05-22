@@ -14,7 +14,6 @@
 #include "MainScene.hpp"
 #include "MazeMusic.hpp"
 #include "MazeMusicLibrary.hpp"
-#include "HelpWindow.hpp"
 
 namespace AmazingMaze
 {
@@ -23,7 +22,6 @@ namespace AmazingMaze
                                      m_pMazeMusic(),
 									 m_pBackgroundMusicLibrary(),
                                      m_pBackgroundMusicTimer(),
-                                     m_pHelpWindow(),
                                      m_pSceneManager(new Egl::CSceneManager())
     {
         // We are interested in listening to
@@ -54,11 +52,6 @@ namespace AmazingMaze
                 switch (std::use_facet<std::ctype<char> > (loc).
                     toupper(static_cast<char>(rArgs.GetCharCode())))
                 {
-                    // help key
-                    case 'I':
-                        m_pHelpWindow->Show();
-                    break;
-
                     // +, increase volume
                     case '+':
                         m_pBackgroundMusicLibrary->increaseVolume();
@@ -69,14 +62,12 @@ namespace AmazingMaze
                         m_pBackgroundMusicLibrary->decreaseVolume();
                     break;
 
-                    // >, play next song
-                    case 'n':
+                    // N, play next song
 					case 'N':
 						m_pBackgroundMusicLibrary->playNextSong();
                     break;
 
-                    // <, play previous song
-                    case 'p':
+                    // P, play previous song
 					case 'P':
                         m_pBackgroundMusicLibrary->playPrevSong();
                     break;
@@ -95,12 +86,6 @@ namespace AmazingMaze
         // Set background color
         glClearColor(0.0, 0.0, 0.0, 0.0);        
         
-        // 
-        // Start playing audio
-        //this->OpenMidi("voltes_v_opening_midi.mid");
-//        m_pMazeMusic.reset(new CMazeMusic("sounds\\Tool - Reflection.mp3"));
-//        m_pMazeMusic->getSoundObject()->play();
-//        m_pMazeMusic->getSoundObject()->setRepeat(true);
 		m_pBackgroundMusicLibrary.reset(new CMazeMusicLibrary(L"sounds\\*.mp3"));
 		m_pBackgroundMusicTimer = this->GetContext()->CreateTimer();
 		m_pBackgroundMusicTimer->Tick += boost::bind(&CMazeMusicLibrary::playLibrary,m_pBackgroundMusicLibrary);
@@ -111,12 +96,7 @@ namespace AmazingMaze
             new CMainScene(this->shared_from_this(), m_pSceneManager, 
                 m_pCamera)));        
 
-        // Create help window and hide it        
-        m_pHelpWindow = this->CreateEglWindow<CHelpWindow>(
-            Egl::SurfaceProperties::SURFACE_RGBA | 
-            Egl::SurfaceProperties::SURFACE_SINGLE,
-            10, 10, 600, 600);                        
-        m_pHelpWindow->Hide();
+        // Show ourselves in full screen.
         this->SetFullScreen();
         this->Show();
 

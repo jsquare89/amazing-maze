@@ -39,6 +39,12 @@ namespace AmazingMaze
         typedef MazeEndStyle::EnumType_t MazeEndStyle_e;
 
     public:
+    
+        /** Copy ctor. */
+        CMaze(const CMaze & rhs);
+        
+        /** Operator=. */
+        CMaze & operator=(const CMaze & rhs);
 
         /** Destructor. */
         ~CMaze() throw();
@@ -96,30 +102,23 @@ namespace AmazingMaze
         /** Generates the maze. */
         void Generate();
 
-        /** Sets this maze as solved. */
-        void MarkSolved() { m_bSolved = true; }
-
         /** Sets the new player row. */
-        void SetPlayerRowIndex(const int nPlayerRowIndex) { m_nPlayerRowIndex = nPlayerRowIndex; }
+        void SetPlayerRowIndex(const int nPlayerRowIndex);
 
         /** Sets the new player column index. */
-        void SetPlayerColumn(const int nPlayerColumn) { m_nPlayerColumn = nPlayerColumn; }
-
-        // Prevent copy construction and op=
-        CMaze(const CMaze&);
-        CMaze & operator=(const CMaze&);
+        void SetPlayerColumn(const int nPlayerColumn);
 
     private:
-
-        /** Maze. */
-        Maze_t m_mMaze;
-
-        /** The width of the m_mMaze. */
-        int  m_nHeight;
 
         /** The height of the m_mMaze. */
         int  m_nWidth;
         
+        /** The width of the m_mMaze. */
+        int  m_nHeight;
+        
+        /** Maze. */
+        Maze_t m_mMaze;
+
         /** Row index of start position. */
         int m_nStartRowIndex;
 

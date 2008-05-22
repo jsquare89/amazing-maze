@@ -176,6 +176,60 @@ namespace AmazingMaze
         m_nPlayerColumn = m_nStartColumn;
     }
 
+    CMaze::CMaze(const CMaze & rhs) :
+                 m_nWidth(rhs.m_nWidth),
+                 m_nHeight(rhs.m_nHeight),
+                 m_mMaze(rhs.m_nHeight),
+                 m_nStartRowIndex(rhs.m_nStartRowIndex),
+                 m_nStartColumn(rhs.m_nStartColumn),
+                 m_nEndRowIndex(rhs.m_nEndRowIndex),
+                 m_nEndColumn(rhs.m_nEndColumn),
+                 m_bSolved(rhs.m_bSolved),
+                 m_nPlayerColumn(rhs.m_nPlayerColumn),
+                 m_nPlayerRowIndex(rhs.m_nPlayerRowIndex)
+    {
+        // Create rows as copies of the rows in the other maze
+        Maze_t::const_iterator cit = rhs.m_mMaze.begin();
+        for (Maze_t::iterator it = m_mMaze.begin(); it < m_mMaze.end(); ++it, ++cit)
+        {
+            *it = new CMazeRow(**cit);
+        }
+    }
+        
+    CMaze & 
+    CMaze::operator=(const CMaze & rhs)
+    {
+        // Check for self assignment
+        if (this == &rhs)
+            return *this;
+
+        // Delete our rows
+        for (Maze_t::iterator it = m_mMaze.begin(); it < m_mMaze.end(); it++)
+            delete *it;
+
+        // Assign
+        m_nWidth = rhs.m_nWidth;
+        m_nHeight = rhs.m_nHeight;
+        m_mMaze.resize(rhs.m_nHeight);
+        m_nStartRowIndex = rhs.m_nStartRowIndex;
+        m_nStartColumn = rhs.m_nStartColumn;
+        m_nEndRowIndex = rhs.m_nEndRowIndex;
+        m_nEndColumn = rhs.m_nEndColumn;
+        m_bSolved = rhs.m_bSolved;
+        m_nPlayerColumn = rhs.m_nPlayerColumn;
+        m_nPlayerRowIndex = rhs.m_nPlayerRowIndex;
+
+        // Create our rows as copies of the rows in the other maze
+        Maze_t::const_iterator cit = rhs.m_mMaze.begin();
+        for (Maze_t::iterator it = m_mMaze.begin(); it < m_mMaze.end(); ++it, ++cit)
+        {
+            *it = new CMazeRow(**cit);
+        }
+
+        // Return ourselves
+        return *this;
+    }
+
     CMaze::~CMaze() throw()
     {
         for (Maze_t::iterator it = m_mMaze.begin(); it < m_mMaze.end(); it++)
@@ -201,5 +255,27 @@ namespace AmazingMaze
             detail::ProcessNode(m_mMaze, m_nWidth, m_nHeight, sNodes);            
     }
 
-    
+    void 
+    CMaze::SetPlayerRowIndex(const int nPlayerRowIndex) 
+    { 
+        // Assign
+        m_nPlayerRowIndex = nPlayerRowIndex; 
+
+        // Check if we have won
+        if ((m_nPlayerRowIndex == m_nEndRowIndex) && (m_nPlayerColumn == m_nEndColumn))
+            m_bSolved = true;
+    }
+
+        
+    void 
+    CMaze::SetPlayerColumn(const int nPlayerColumn) 
+    { 
+        // Assign
+        m_nPlayerColumn = nPlayerColumn; 
+
+        // Check if we have won
+        if ((m_nPlayerRowIndex == m_nEndRowIndex) && (m_nPlayerColumn == m_nEndColumn))
+            m_bSolved = true;
+    }
+
 } // namespace AmazingMaze

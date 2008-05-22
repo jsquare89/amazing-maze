@@ -11,8 +11,8 @@
 #include "Egl/Menu.hpp"
 #include "Egl/Window.hpp"
 #include "CreditScene.hpp"
+#include "StandardGameScene.hpp"
 #include "HelpScene.hpp"
-#include "DemoScene.hpp"
 #include "Egl/SceneManager.hpp"
 #include "MazeServer.hpp"
 
@@ -134,7 +134,8 @@ namespace AmazingMaze
 
                         // Help key
                         case 'I': 
-                            //m_pHelpWindow->Show();
+                            // Show instructions
+                            this->ShowHelpScene();
                         break;
                     }
                 }
@@ -167,7 +168,7 @@ namespace AmazingMaze
                                 // Demo
                                 case CMainScene::MENU_ITEM_ID_START:
                                     // Show credits
-                                    this->ShowDemoScene();
+                                    this->StartGame();
                                 break;
 
                                 // Credits
@@ -176,13 +177,12 @@ namespace AmazingMaze
                                     this->ShowCreditScene();
                                 break;
 
-								// Credits
+								// Instructions
                                 case CMainScene::MENU_ITEM_ID_INSTRUCTIONS:
                                     // Show credits
                                     this->ShowHelpScene();
                                 break;
 								
-
                                 // Quit
                                 case CMainScene::MENU_ITEM_ID_QUIT:
                                     this->GetWindow()->Close();
@@ -248,7 +248,7 @@ namespace AmazingMaze
                 // Start
                 case CMainScene::MENU_ITEM_ID_START:
                     // Show credit window
-                    this->ShowDemoScene();
+                    this->StartGame();
                 break;
             }
         }
@@ -281,13 +281,13 @@ namespace AmazingMaze
     }
 
     void 
-    CMainScene::ShowDemoScene()
+    CMainScene::StartGame()
     {
         // Push the credits scene onto the stack
         Egl::SceneManagerPtr_t pSceneManager = this->GetSceneManager();
         Egl::WindowPtr_t pWindow = this->GetWindow();
         pSceneManager->PushScene(Egl::ScenePtr_t(
-            new CDemoScene(pWindow, pSceneManager, this->GetCamera(), 
+            new CStandardGameScene(pWindow, pSceneManager, this->GetCamera(), 
             m_pMazeServer, m_pMazeServer->CreateMaze(16, 21, CMaze::MazeEndStyle::LEFTRIGHT))));
 
         // Refresh the window so the right scene is shown
