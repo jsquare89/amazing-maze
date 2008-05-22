@@ -70,7 +70,7 @@ namespace AmazingMaze
         void ShowHelpScene();
 
         /** Show demo scene. */
-        void ShowDemoScene();
+        void StartGame();
 
     private:
 

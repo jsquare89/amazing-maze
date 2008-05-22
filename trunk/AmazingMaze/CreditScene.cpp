@@ -92,7 +92,6 @@ namespace AmazingMaze
 
         // Create context menu
         m_pContextMenu = pWindow->GetContext()->CreateMenu();
-        m_pContextMenu->AddItem("Show help window", CCreditScene::MENU_ITEM_ID_HELP, false);        
         m_pContextMenu->AddItem("Back to main screen", CCreditScene::MENU_ITEM_ID_BACK, false);                
     }
 
@@ -145,17 +144,10 @@ namespace AmazingMaze
                         toupper(static_cast<char>(rArgs.GetCharCode())))
                     {
                         // Back key
-                        case 'q':
 						case 'Q':
                             // Go back to the main screen
                             this->GetSceneManager()->PopScene();
 
-                        break;
-
-                        // Help key
-                        case 'I': 
-						case 'i':
-                            //m_pHelpWindow->Show();
                         break;
                     }
                 }
@@ -215,11 +207,6 @@ namespace AmazingMaze
             // Switch on the ID of the item
             switch (rArgs.GetItemId())
             {
-                // Toggle help
-                case MENU_ITEM_ID_HELP:
-                    //m_pHelpWindow->Show();
-                break;
-
                 // Back menu item.
                 case MENU_ITEM_ID_BACK:
                     this->GetSceneManager()->PopScene();

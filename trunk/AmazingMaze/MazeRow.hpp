@@ -18,6 +18,30 @@ namespace AmazingMaze
 
     public:
 
+        /** Copy constructor. */
+        CMazeRow(const CMazeRow & rhs) : 
+                 m_vNorthWalls(rhs.m_vNorthWalls),
+                 m_vEastWalls(rhs.m_vEastWalls),
+                 m_nIndex(rhs.m_nIndex)
+        {
+        }
+
+        /** Operator=. */
+        CMazeRow & operator=(const CMazeRow & rhs)
+        {
+            // Check for self assignment
+            if (this == &rhs)
+                return *this;
+
+            // Assign
+            m_vNorthWalls = rhs.m_vNorthWalls;
+            m_vEastWalls = rhs.m_vEastWalls;
+            m_nIndex = rhs.m_nIndex;
+
+            // Return ourselves
+            return *this;
+        }
+
         /** Wall iterator. */
         typedef WallVector_t::const_iterator WallIterator_t;
 
@@ -67,7 +91,7 @@ namespace AmazingMaze
         const int GetIndex() const { return m_nIndex; }
 
         /** Destructor. */
-        ~CMazeRow() throw() {}
+        ~CMazeRow() throw() {}        
 
     private:
 
@@ -81,7 +105,7 @@ namespace AmazingMaze
             this->SetNorthWalls();
             std::fill_n(m_vEastWalls.begin(), nLength, true);
        }
-              
+
     private:
 
         /** North walls for this row. */

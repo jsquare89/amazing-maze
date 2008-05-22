@@ -33,10 +33,8 @@ namespace AmazingMaze
         /** Enum of possible motions the player can do. */
         typedef MazeMoveDirection::EnumType_t MazeMoveDirection_e;
 
-        
-
-        /** Move in a given direction within the maze. */
-        const bool Move(const MazePtr_t & pMaze, const MazeMoveDirection_e eMoveDirection);
+        /** Type of maze solution vector. */
+        typedef std::vector<MazeMoveDirection_e> MazeSolution_t;
 
     public:
 
@@ -47,7 +45,24 @@ namespace AmazingMaze
         ~CMazeServer() throw();
 
         /** Creates a maze. */
-        const MazePtr_t CreateMaze(const int nWidth, const int nHeight, const CMaze::MazeEndStyle_e eMazeEndStyle);
+        const MazePtr_t CreateMaze(const int nWidth, const int nHeight, const CMaze::MazeEndStyle_e eMazeEndStyle) const;
+
+        /** Move in a given direction within the maze. */
+        const bool Move(const MazePtr_t & pMaze, const MazeMoveDirection_e eMoveDirection) const;
+
+        /** Solve the maze and returns a list of steps that when executed put the player at the end of the maze. */
+        const MazeSolution_t Solve(const MazePtr_t pMaze) const;
+
+        /** Get the direction oposite to a given direction. */
+        const MazeMoveDirection_e GetOpositeDirection(const MazeMoveDirection_e eDirection) const;
+
+    private:
+
+        /** Solve the maze and returns a list of steps that when executed put the player at the end of the maze. */
+        const bool SolveMaze(const MazePtr_t & pMaze, 
+                             MazeSolution_t & rSolution, 
+                             const MazeMoveDirection_e eLastDirection, 
+                             const bool bFirst) const;
 
     private:
 

@@ -27,9 +27,6 @@ namespace AmazingMaze
         /** Menu item IDs (for 3D menu and context menu). */
         enum MenuItemId
         {
-            /** Help. */
-            MENU_ITEM_ID_HELP,
-
             /** Back. */
             MENU_ITEM_ID_BACK
         };
